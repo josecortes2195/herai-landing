@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>HerAI — Tu ciclo, tu superpoder</title>
 <meta name="description" content="HerAI personaliza tu nutrición y entrenamiento según tu ciclo menstrual y fases hormonales. Inteligencia artificial al servicio de tu biología.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,7 +70,7 @@ nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 20px 48px;
+  padding: calc(20px + env(safe-area-inset-top)) 48px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,7 +80,7 @@ nav.scrolled {
   background: rgba(26,10,20,0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 14px 48px;
+  padding: calc(14px + env(safe-area-inset-top)) 48px 14px;
   border-bottom: 1px solid rgba(123,34,82,0.18);
 }
 nav.on-light {
@@ -1300,8 +1300,8 @@ footer {
 
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 900px) {
-  nav { padding: 18px 24px; }
-  nav.scrolled { padding: 14px 24px; }
+  nav { padding: calc(18px + env(safe-area-inset-top)) 24px 18px; }
+  nav.scrolled { padding: calc(14px + env(safe-area-inset-top)) 24px 14px; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
 
