@@ -798,41 +798,6 @@ h3.feature-title {
   .phone-frame { width: 180px; }
 }
 
-/* ─── HAND HOLD ──────────────────────────────────────────── */
-.hand-hold {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 80px;
-}
-.hand-hold .phone-frame {
-  transform: rotate(-6deg);
-  transform-origin: bottom center;
-  transition: transform 0.4s var(--ease-out);
-}
-.hand-hold:hover .phone-frame {
-  transform: rotate(-3deg) translateY(-8px);
-}
-.hand-emoji {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-55%) rotate(-6deg);
-  font-size: 180px;
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-  filter: drop-shadow(0 -8px 24px rgba(0,0,0,0.45));
-  transition: transform 0.4s var(--ease-out);
-}
-.hand-hold:hover .hand-emoji {
-  transform: translateX(-55%) rotate(-3deg) translateY(-4px);
-}
-
-@media (max-width: 640px) {
-  .hand-emoji { font-size: 130px; }
-  .hand-hold { padding-bottom: 60px; }
-}
-
 /* ─── SHOWCASE BLOCKS ────────────────────────────────────── */
 .sb {
   padding: 96px 0;
@@ -1937,11 +1902,8 @@ h3.condition-name {
       </ul>
     </div>
     <div class="sb-phone reveal-scale reveal-delay-1">
-      <div class="hand-hold">
-        <div class="phone-frame">
-          <img class="phone-screen" src="img/screen-hoy.jpg" alt="Pantalla Hoy de HerAI" loading="lazy">
-        </div>
-        <span class="hand-emoji">🤚🏽</span>
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-hoy.jpg" alt="Pantalla Hoy de HerAI" loading="lazy">
       </div>
     </div>
   </div>
