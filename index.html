@@ -798,6 +798,132 @@ h3.feature-title {
   .phone-frame { width: 180px; }
 }
 
+/* ─── SHOWCASE BLOCKS ────────────────────────────────────── */
+.sb {
+  padding: 96px 0;
+  position: relative;
+}
+.sb.dark  { background: var(--dark); }
+.sb.light { background: #faf4f0; }
+
+.sb-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 80px;
+  align-items: center;
+}
+.sb.flip .sb-inner {
+  grid-template-columns: 300px 1fr;
+}
+.sb.flip .sb-phone { order: -1; }
+
+.sb-phone {
+  display: flex;
+  justify-content: center;
+}
+.sb-phone .phone-frame {
+  width: 300px;
+}
+
+.sb-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 18px;
+}
+.sb-eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: currentColor;
+}
+.sb.light .sb-eyebrow { color: var(--burg); }
+
+.sb-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.sb.light .sb-title { color: #1c0e14; }
+.sb-title em { font-style: italic; color: var(--rose); }
+
+.sb-desc {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+.sb.light .sb-desc { color: #6b4050; }
+
+.sb-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sb-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.sb-feature-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(201,96,128,0.1);
+  border: 1px solid rgba(201,96,128,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.sb.light .sb-feature-icon {
+  background: rgba(123,34,82,0.07);
+  border-color: rgba(123,34,82,0.15);
+}
+.sb-feature-body {}
+.sb-feature-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 2px;
+}
+.sb.light .sb-feature-title { color: #1c0e14; }
+.sb-feature-desc {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.sb.light .sb-feature-desc { color: #6b4050; }
+
+@media (max-width: 900px) {
+  .sb-inner,
+  .sb.flip .sb-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .sb.flip .sb-phone { order: 0; }
+  .sb-phone .phone-frame { width: 260px; }
+}
+@media (max-width: 640px) {
+  .sb { padding: 64px 0; }
+  .sb-inner { padding: 0 20px; gap: 36px; }
+  .sb-phone .phone-frame { width: 230px; }
+}
+
 /* ─── PHASES ─────────────────────────────────────────────── */
 #phases {
   padding: 120px 0 140px;
@@ -1661,9 +1787,9 @@ h3.condition-name {
     HerAI
   </a>
   <ul class="nav-links">
-    <li><a href="#features">Funciones</a></li>
-    <li><a href="#phases">Tu ciclo</a></li>
-    <li><a href="#personalization">Personalización</a></li>
+    <li><a href="#showcase-hoy">La app</a></li>
+    <li><a href="#showcase-nutricion">Nutrición</a></li>
+    <li><a href="#showcase-chat">IA</a></li>
     <li><a href="#conditions">Condiciones</a></li>
     <li><a href="#science">Ciencia</a></li>
   </ul>
@@ -1675,9 +1801,9 @@ h3.condition-name {
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-menu-close" id="menuClose">✕</button>
-  <a href="#features" class="menu-link">Funciones</a>
-  <a href="#phases" class="menu-link">Tu ciclo</a>
-  <a href="#personalization" class="menu-link">Personalización</a>
+  <a href="#showcase-hoy" class="menu-link">La app</a>
+  <a href="#showcase-nutricion" class="menu-link">Nutrición</a>
+  <a href="#showcase-chat" class="menu-link">IA</a>
   <a href="#conditions" class="menu-link">Condiciones</a>
   <a href="#science" class="menu-link">Ciencia</a>
 </div>
@@ -1739,505 +1865,241 @@ h3.condition-name {
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-inner">
-    <div class="showcase-row flip reveal">
-      <div class="showcase-text">
-        <div class="section-label">Lo que hace HerAI</div>
-        <h3>Inteligencia que entiende<br><em>tu biología</em></h3>
-        <p>Cada función está diseñada para trabajar con tu cuerpo, no contra él. Porque las mujeres no somos hombres de 70kg — y ya era hora de que una app lo supiera.</p>
-        <div class="showcase-chips">
-          <span class="showcase-chip">IA personalizada</span>
-          <span class="showcase-chip">Nutrición por fase</span>
-          <span class="showcase-chip">Entrenamiento adaptado</span>
-          <span class="showcase-chip">Seguimiento del ciclo</span>
-        </div>
-      </div>
-      <div class="phone-frame reveal-scale reveal-delay-1">
-        <img class="phone-screen" src="img/screen-hoy.jpg" alt="Dashboard HerAI" loading="lazy">
-      </div>
-    </div>
 
-    <div class="features-grid">
 
-      <div class="feature-card fi-rose reveal-tilt">
-        <span class="feature-num">01</span>
-        <div class="feature-icon fi-rose">
-          <div class="feature-icon-bg"></div>
-          🧠
-        </div>
-        <h3 class="feature-title">IA personalizada para ti</h3>
-        <p class="feature-desc">
-          Impulsada por LLaMA 3.3 70B, nuestra IA aprende tus patrones,
-          preferencias y objetivos para ofrecerte recomendaciones únicas cada día.
-          No son templates genéricos — es un plan que cambia contigo.
-        </p>
-        <span class="feature-tag">LLaMA 3.3 70B</span>
-      </div>
 
-      <div class="feature-card fi-gold reveal-tilt reveal-delay-1">
-        <span class="feature-num">02</span>
-        <div class="feature-icon fi-gold">
-          <div class="feature-icon-bg"></div>
-          🥗
-        </div>
-        <h3 class="feature-title">Nutrición por fase hormonal</h3>
-        <p class="feature-desc">
-          Lo que necesitas comer en la fase menstrual no es lo mismo que
-          en la ovulatoria. HerAI adapta macros, alimentos y recetas
-          según los cambios hormonales de cada etapa de tu ciclo.
-        </p>
-        <span class="feature-tag">Nutrición adaptativa</span>
-      </div>
 
-      <div class="feature-card fi-burg reveal-tilt reveal-delay-2">
-        <span class="feature-num">03</span>
-        <div class="feature-icon fi-burg">
-          <div class="feature-icon-bg"></div>
-          💪
-        </div>
-        <h3 class="feature-title">Entrenamiento inteligente</h3>
-        <p class="feature-desc">
-          Los niveles de estrógeno y progesterona afectan tu fuerza,
-          resistencia y recuperación. HerAI te propone el tipo de
-          entrenamiento óptimo para cada fase, maximizando resultados
-          y previniendo el sobreentrenamiento.
-        </p>
-        <span class="feature-tag">Rendimiento real</span>
-      </div>
 
-      <div class="feature-card fi-lut reveal-tilt reveal-delay-3">
-        <span class="feature-num">04</span>
-        <div class="feature-icon fi-lut">
-          <div class="feature-icon-bg"></div>
-          🌙
-        </div>
-        <h3 class="feature-title">Seguimiento del ciclo</h3>
-        <p class="feature-desc">
-          Registra síntomas, energía, estado de ánimo y sueño para que
-          la IA afine cada vez más sus recomendaciones. Cuanto más la uses,
-          más precisa se vuelve — como una nutricionista que te conoce de verdad.
-        </p>
-        <span class="feature-tag">Aprende de ti</span>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- PHASES -->
-<section id="phases" class="light-section">
-  <div class="section-inner">
-
-    <div class="phases-intro">
-      <div class="reveal">
-        <div class="section-label">Cómo funciona</div>
-        <h2 class="section-title">
-          Tu ciclo tiene<br>
-          <em>cuatro ritmos</em>
-        </h2>
-        <p class="section-desc">
-          Cada fase hormonal tiene sus propias necesidades nutricionales y de
-          movimiento. HerAI lo sabe y te acompaña en cada una de ellas
-          con recomendaciones específicas.
-        </p>
-      </div>
-      <div class="phases-cycle-diagram reveal-scale reveal-delay-2">
-        <div class="phone-frame">
-          <img class="phone-screen" src="img/screen-ciclo.jpg" alt="Seguimiento del ciclo en HerAI" loading="lazy">
-        </div>
-      </div>
-    </div>
-
-    <div class="phases-grid">
-
-      <!-- MENSTRUAL -->
-      <div class="phase-card men reveal-left">
-        <div class="phase-dot"></div>
-        <div class="phase-days">Días 1–5</div>
-        <h3 class="phase-name">Menstrual</h3>
-        <div class="phase-name-es">descanso y restauración</div>
-        <div class="phase-divider"></div>
-
-        <div class="phase-section-title">Nutrición</div>
-        <ul class="phase-items">
-          <li>Hierro y proteína de calidad</li>
-          <li>Antiinflamatorios naturales</li>
-          <li>Omega-3 y magnesio</li>
-          <li>Reducir azúcares simples</li>
-        </ul>
-
-        <div class="phase-section-title">Movimiento</div>
-        <ul class="phase-items">
-          <li>Yoga restaurativo</li>
-          <li>Caminatas suaves</li>
-          <li>Estiramientos profundos</li>
-        </ul>
-
-        <div class="phase-energy">
-          <span class="phase-energy-label">Energía</span>
-          <div class="phase-energy-bar">
-            <div class="phase-energy-fill" style="width:25%"></div>
+<!-- SHOWCASE: HOY -->
+<section class="sb dark" id="showcase-hoy">
+  <div class="sb-inner">
+    <div class="sb-text reveal-left">
+      <span class="sb-eyebrow">Pantalla principal</span>
+      <h2 class="sb-title">Tu estado hormonal,<br><em>nada más abrir la app</em></h2>
+      <p class="sb-desc">En la pantalla Hoy ves de un vistazo todo lo que necesitas saber sobre tu día: cómo están tus hormonas, tu energía, tu ánimo y qué suplementos tomar. Todo calculado para tu fase actual del ciclo.</p>
+      <ul class="sb-features">
+        <li class="sb-feature">
+          <span class="sb-feature-icon">⚡</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Estrógeno y progesterona en tiempo real</div>
+            <p class="sb-feature-desc">HerAI calcula tu nivel hormonal estimado cada día según el punto exacto de tu ciclo — bajando, subiendo o en pico.</p>
           </div>
-        </div>
-      </div>
-
-      <!-- FOLICULAR -->
-      <div class="phase-card fol reveal reveal-delay-1" style="transform-origin: bottom center">
-        <div class="phase-dot"></div>
-        <div class="phase-days">Días 6–13</div>
-        <h3 class="phase-name">Folicular</h3>
-        <div class="phase-name-es">energía en ascenso</div>
-        <div class="phase-divider"></div>
-
-        <div class="phase-section-title">Nutrición</div>
-        <ul class="phase-items">
-          <li>Carbohidratos complejos</li>
-          <li>Alimentos fermentados</li>
-          <li>Vitaminas del grupo B</li>
-          <li>Hidratación extra</li>
-        </ul>
-
-        <div class="phase-section-title">Movimiento</div>
-        <ul class="phase-items">
-          <li>HIIT y cardio</li>
-          <li>Nuevos ejercicios</li>
-          <li>Clases grupales</li>
-        </ul>
-
-        <div class="phase-energy">
-          <span class="phase-energy-label">Energía</span>
-          <div class="phase-energy-bar">
-            <div class="phase-energy-fill" style="width:65%"></div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🌡️</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Energía y ánimo esperados hoy</div>
+            <p class="sb-feature-desc">Saber que tu energía es "media-baja" hoy no es excusa — es información. Puedes planificar tu día con datos reales, no con suposiciones.</p>
           </div>
-        </div>
-      </div>
-
-      <!-- OVULATORIA -->
-      <div class="phase-card ovu reveal reveal-delay-2" style="transform-origin: bottom center">
-        <div class="phase-dot"></div>
-        <div class="phase-days">Días 14–16</div>
-        <h3 class="phase-name">Ovulatoria</h3>
-        <div class="phase-name-es">pico de poder</div>
-        <div class="phase-divider"></div>
-
-        <div class="phase-section-title">Nutrición</div>
-        <ul class="phase-items">
-          <li>Proteína alta para músculo</li>
-          <li>Fibra y vegetales crucíferos</li>
-          <li>Antioxidantes potentes</li>
-          <li>Calorías al alza</li>
-        </ul>
-
-        <div class="phase-section-title">Movimiento</div>
-        <ul class="phase-items">
-          <li>Fuerza máxima</li>
-          <li>Entrenamientos intensos</li>
-          <li>Marcas personales</li>
-        </ul>
-
-        <div class="phase-energy">
-          <span class="phase-energy-label">Energía</span>
-          <div class="phase-energy-bar">
-            <div class="phase-energy-fill" style="width:95%"></div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">💊</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Suplementos del día</div>
+            <p class="sb-feature-desc">Magnesio, Vitamina B6, Calcio — los suplementos que recomienda tu fase hormonal, con la dosis exacta, cada día.</p>
           </div>
-        </div>
-      </div>
-
-      <!-- LÚTEA -->
-      <div class="phase-card lut reveal-right reveal-delay-3">
-        <div class="phase-dot"></div>
-        <div class="phase-days">Días 17–28</div>
-        <h3 class="phase-name">Lútea</h3>
-        <div class="phase-name-es">preparación e introspección</div>
-        <div class="phase-divider"></div>
-
-        <div class="phase-section-title">Nutrición</div>
-        <ul class="phase-items">
-          <li>Magnesio contra el SPM</li>
-          <li>Calcio y vitamina D</li>
-          <li>Reducir cafeína y sal</li>
-          <li>Carbohidratos complejos</li>
-        </ul>
-
-        <div class="phase-section-title">Movimiento</div>
-        <ul class="phase-items">
-          <li>Cardio moderado</li>
-          <li>Pilates y yoga</li>
-          <li>Escuchar al cuerpo</li>
-        </ul>
-
-        <div class="phase-energy">
-          <span class="phase-energy-label">Energía</span>
-          <div class="phase-energy-bar">
-            <div class="phase-energy-fill" style="width:45%"></div>
-          </div>
-        </div>
-      </div>
-
+        </li>
+      </ul>
     </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS / PLAN GENERATION -->
-<section id="how-it-works">
-  <div class="section-inner">
-    <div class="how-header reveal">
-      <div class="section-label">El proceso</div>
-      <h2 class="section-title">Cómo HerAI crea<br><em>tu plan cada semana</em></h2>
-      <p class="section-desc">Cada domingo, HerAI genera un plan completamente nuevo. No es una plantilla — es un proceso de cálculo con más de 20 variables tuyas.</p>
-    </div>
-    <div class="how-steps">
-      <div class="how-step reveal-left">
-        <div class="how-step-num">1</div>
-        <h3 class="how-step-title">Calcula tus necesidades reales</h3>
-        <p class="how-step-desc">Usa la ecuación de Harris-Benedict revisada para tu metabolismo basal, multiplicada por tu nivel de actividad. Luego ajusta automáticamente según tu fase hormonal del ciclo — hasta un +8% en fase lútea, donde el cuerpo gasta más.</p>
-        <div class="how-step-chips">
-          <span class="how-chip">Harris-Benedict</span>
-          <span class="how-chip">Factor actividad</span>
-          <span class="how-chip">Ajuste hormonal</span>
-          <span class="how-chip">Objetivo personal</span>
-        </div>
-      </div>
-      <div class="how-step reveal reveal-delay-1">
-        <div class="how-step-num">2</div>
-        <h3 class="how-step-title">Integra tu contexto completo</h3>
-        <p class="how-step-desc">Tus síntomas del día, tu historial de ciclos anteriores, tus condiciones de salud, los alimentos que odias, tu presupuesto y el tiempo que tienes para cocinar. Todo entra en el mismo prompt al modelo de IA.</p>
-        <div class="how-step-chips">
-          <span class="how-chip">Síntomas actuales</span>
-          <span class="how-chip">Historial ciclos</span>
-          <span class="how-chip">Condición médica</span>
-          <span class="how-chip">Preferencias</span>
-        </div>
-      </div>
-      <div class="how-step reveal-right reveal-delay-2">
-        <div class="how-step-num">3</div>
-        <h3 class="how-step-title">Genera y valida el plan</h3>
-        <p class="how-step-desc">LLaMA 3.3 70B crea 7 días de comidas con macros, micronutrientes prioritarios y sinergias de absorción. El sistema valida que la media calórica semanal coincida con tu objetivo y que no haya ningún alimento de tu lista de rechazos.</p>
-        <div class="how-step-chips">
-          <span class="how-chip">LLaMA 3.3 70B</span>
-          <span class="how-chip">Validación macros</span>
-          <span class="how-chip">7 días completos</span>
-          <span class="how-chip">Sinergias activas</span>
-        </div>
+    <div class="sb-phone reveal-scale reveal-delay-1">
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-hoy.jpg" alt="Pantalla Hoy de HerAI" loading="lazy">
       </div>
     </div>
   </div>
 </section>
 
-<!-- NUTRITION DETAIL -->
-<section id="nutrition-detail" class="light-section">
-  <div class="section-inner">
-    <div class="nutrition-layout">
-      <div class="reveal">
-        <div class="section-label">Macronutrientes</div>
-        <h2 class="section-title">Los macros cambian<br><em>con tu ciclo</em></h2>
-        <p class="section-desc" style="margin-bottom:36px">
-          Los porcentajes de proteína, carbohidratos y grasas no son fijos.
-          Se redistribuyen cada semana según lo que tus hormonas necesitan —
-          respaldado por investigación publicada.
-        </p>
-        <div class="nutrition-callouts">
-          <div class="nutrition-callout reveal-left reveal-delay-1">
-            <span class="callout-icon">🍳</span>
-            <div>
-              <div class="callout-title">Desayuno anti-cortisol</div>
-              <p class="callout-desc">El cortisol es máximo por la mañana. HerAI nunca genera desayunos solo de fruta o carbohidrato simple — siempre incluye proteína de calidad y grasa saludable para evitar el pico glucémico matutino.</p>
-            </div>
+<!-- SHOWCASE: HORMONAS -->
+<section class="sb light">
+  <div class="sb-inner">
+    <div class="sb-text reveal-right">
+      <span class="sb-eyebrow">Pantalla hormonas</span>
+      <h2 class="sb-title">No son sensaciones.<br><em>Son hormonas.</em></h2>
+      <p class="sb-desc">HerAI muestra los niveles estimados de estrógeno, progesterona, LH y FSH para tu fase del ciclo, calculados por interpolación de curvas clínicas de referencia (Thorneycroft 1971, WHO 1980). Y lo que significan en lenguaje humano.</p>
+      <ul class="sb-features">
+        <li class="sb-feature">
+          <span class="sb-feature-icon">📊</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">4 hormonas tracked: E2, Progesterona, LH, FSH</div>
+            <p class="sb-feature-desc">Cada una con su nivel actual (Mínimo, Bajo, Medio, Alto, Pico) y una explicación de lo que significa para tu cuerpo hoy.</p>
           </div>
-          <div class="nutrition-callout reveal-left reveal-delay-2">
-            <span class="callout-icon">🌙</span>
-            <div>
-              <div class="callout-title">Cena pro-sueño</div>
-              <p class="callout-desc">La cena se diseña para favorecer el sueño hormonal: rica en triptófano y magnesio, sin proteínas pesadas después de las 20h, con infusión recomendada según la fase del ciclo.</p>
-            </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🧬</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Basado en curvas clínicas reales</div>
+            <p class="sb-feature-desc">Los valores no son inventados. Se calculan por interpolación de datos clínicos publicados, no por promedios genéricos de aplicaciones de fitness.</p>
           </div>
-          <div class="nutrition-callout reveal-left reveal-delay-3">
-            <span class="callout-icon">🔄</span>
-            <div>
-              <div class="callout-title">Ajuste dinámico automático</div>
-              <p class="callout-desc">Si llevas 14 días sin progresar hacia tu objetivo, el sistema ajusta las calorías automáticamente. Si pierdes peso demasiado rápido, las aumenta. El plan evoluciona contigo.</p>
-            </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">💬</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Qué significan tus hormonas hoy</div>
+            <p class="sb-feature-desc">"La progesterona domina y puede traer antojos, hinchazón y sensibilidad emocional. No es debilidad — es biología." HerAI lo explica sin tecnicismos.</p>
           </div>
-        </div>
-      </div>
-      <div class="reveal-right reveal-delay-1" style="display:flex;flex-direction:column;gap:32px;align-items:center">
-        <div class="phone-frame">
-          <img class="phone-screen" src="img/screen-nutricion.jpg" alt="Plan nutricional de 7 días en HerAI" loading="lazy">
-        </div>
-        <div class="macro-table-wrap" style="width:100%">
-          <div class="macro-table-head">
-            <span class="macro-th">Fase</span>
-            <span class="macro-th">Proteína</span>
-            <span class="macro-th">Carbos</span>
-            <span class="macro-th">Grasas</span>
-          </div>
-          <div class="macro-row">
-            <div class="macro-phase">
-              <span class="macro-dot" style="background:var(--men)"></span>
-              <span class="macro-phase-name">Menstrual</span>
-            </div>
-            <span class="macro-val"><strong>25–30%</strong></span>
-            <span class="macro-val"><strong>35–40%</strong></span>
-            <span class="macro-val"><strong>30–35%</strong></span>
-          </div>
-          <div class="macro-row">
-            <div class="macro-phase">
-              <span class="macro-dot" style="background:var(--fol)"></span>
-              <span class="macro-phase-name">Folicular</span>
-            </div>
-            <span class="macro-val"><strong>30–35%</strong></span>
-            <span class="macro-val"><strong>40–45%</strong></span>
-            <span class="macro-val"><strong>20–25%</strong></span>
-          </div>
-          <div class="macro-row">
-            <div class="macro-phase">
-              <span class="macro-dot" style="background:var(--ovu)"></span>
-              <span class="macro-phase-name">Ovulatoria</span>
-            </div>
-            <span class="macro-val"><strong>30%</strong></span>
-            <span class="macro-val"><strong>45–50%</strong></span>
-            <span class="macro-val"><strong>20–25%</strong></span>
-          </div>
-          <div class="macro-row">
-            <div class="macro-phase">
-              <span class="macro-dot" style="background:var(--lut)"></span>
-              <span class="macro-phase-name">Lútea</span>
-            </div>
-            <span class="macro-val"><strong>25–30%</strong></span>
-            <span class="macro-val"><strong>50–55%</strong></span>
-            <span class="macro-val"><strong>20%</strong></span>
-          </div>
-        </div>
-        <p style="font-size:0.72rem;color:var(--muted2);margin-top:14px;padding:0 4px;line-height:1.6">
-          Fuente: Bisdee et al., 1989; Solomon et al., 1982; Barr et al., 1995. Los ratios se aplican sobre las calorías totales ajustadas por fase y objetivo.
-        </p>
-      </div>
+        </li>
+      </ul>
+    </div>
+    <div class="sb-phone reveal-scale reveal-delay-1">
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-hormonas.jpg" alt="Pantalla Hormonas de HerAI" loading="lazy">
       </div>
     </div>
   </div>
 </section>
 
-<!-- DEEP PERSONALIZATION -->
-<section id="personalization">
-  <div class="section-inner">
-    <div class="personal-layout">
-      <div class="reveal-left">
-        <div class="section-label">Personalización</div>
-        <h2 class="section-title">Más de 20 variables.<br><em>Un plan solo tuyo.</em></h2>
-        <p class="section-desc">
-          HerAI no te asigna una plantilla genérica. Cada variable que introduces — desde tu peso hasta los síntomas de hoy — cambia el plan real que recibes.
-        </p>
-        <div class="personal-stat-row" style="margin-top:40px;margin-bottom:40px">
-          <div class="personal-stat">
-            <span class="personal-stat-num">20+</span>
-            <span class="personal-stat-label">variables clínicas</span>
-          </div>
-          <div class="personal-stat">
-            <span class="personal-stat-num">7</span>
-            <span class="personal-stat-label">días de plan</span>
-          </div>
-          <div class="personal-stat">
-            <span class="personal-stat-num">4</span>
-            <span class="personal-stat-label">fases adaptadas</span>
-          </div>
-        </div>
+<!-- SHOWCASE: NUTRICIÓN -->
+<section class="sb dark flip" id="showcase-nutricion">
+  <div class="sb-inner">
+    <div class="sb-phone reveal-scale">
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-nutricion.jpg" alt="Plan nutricional HerAI" loading="lazy">
       </div>
-      <div class="personal-vars reveal-right reveal-delay-1" style="display:flex;flex-direction:column;gap:32px">
-        <div class="phone-frame" style="margin:0 auto">
-          <img class="phone-screen" src="img/screen-chat.jpg" alt="Chat IA de HerAI" loading="lazy">
-        </div>
+    </div>
+    <div class="sb-text reveal-right reveal-delay-1">
+      <span class="sb-eyebrow">Plan nutricional</span>
+      <h2 class="sb-title">7 días de comidas.<br><em>Rehecho cada semana.</em></h2>
+      <p class="sb-desc">Cada domingo HerAI genera tu plan semanal completo. No es una plantilla — es un plan calculado con tus calorías reales, tu fase hormonal y tus preferencias. Con recetas, sustituciones y calorías por plato.</p>
+      <ul class="sb-features">
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🍳</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">5 comidas al día con recetas reales</div>
+            <p class="sb-feature-desc">Desayuno, media mañana, almuerzo, merienda y cena. Cada plato con ingredientes, preparación y las calorías exactas.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🔄</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Sustituciones inteligentes</div>
+            <p class="sb-feature-desc">"Si no tienes espinacas, usa brócoli." Cada plato incluye alternativas para los ingredientes que no tengas o no te gusten.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🎯</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Calorías ajustadas a tu fase</div>
+            <p class="sb-feature-desc">La fase lútea requiere hasta un 8% más de calorías. Tu plan lo refleja — lunes 2488 kcal, miércoles 2423 kcal. La variación es intencional.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-        <div class="var-group open" onclick="toggleGroup(this)">
-          <div class="var-group-header">
-            <span class="var-group-icon">🧬</span>
-            <span class="var-group-title">Datos biométricos y metabólicos</span>
-            <span class="var-group-count">6 vars</span>
-            <span class="var-group-arrow">▼</span>
-          </div>
-          <div class="var-group-body">
-            <div class="var-list">
-              <span class="var-item">Peso actual</span>
-              <span class="var-item">Altura</span>
-              <span class="var-item">Edad</span>
-              <span class="var-item">Peso objetivo</span>
-              <span class="var-item">Nivel de actividad</span>
-              <span class="var-item">Historial de peso (14 días)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="var-group" onclick="toggleGroup(this)">
-          <div class="var-group-header">
-            <span class="var-group-icon">🌙</span>
-            <span class="var-group-title">Ciclo hormonal</span>
-            <span class="var-group-count">4 vars</span>
-            <span class="var-group-arrow">▼</span>
-          </div>
-          <div class="var-group-body">
-            <div class="var-list">
-              <span class="var-item">Fase actual del ciclo</span>
-              <span class="var-item">Día del ciclo</span>
-              <span class="var-item">Longitud del ciclo</span>
-              <span class="var-item">Días especiales (ovulación, día 1, pre-menstrual)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="var-group" onclick="toggleGroup(this)">
-          <div class="var-group-header">
-            <span class="var-group-icon">🩺</span>
-            <span class="var-group-title">Síntomas y salud</span>
-            <span class="var-group-count">3 vars</span>
-            <span class="var-group-arrow">▼</span>
-          </div>
-          <div class="var-group-body">
-            <div class="var-list">
-              <span class="var-item">Síntomas del día actual</span>
-              <span class="var-item">Historial de síntomas por fase</span>
-              <span class="var-item">Condición médica declarada</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="var-group" onclick="toggleGroup(this)">
-          <div class="var-group-header">
-            <span class="var-group-icon">🥗</span>
-            <span class="var-group-title">Preferencias alimentarias</span>
-            <span class="var-group-count">8 vars</span>
-            <span class="var-group-arrow">▼</span>
-          </div>
-          <div class="var-group-body">
-            <div class="var-list">
-              <span class="var-item">Alergias e intolerancias</span>
-              <span class="var-item">Alimentos no deseados</span>
-              <span class="var-item">Alimentos favoritos</span>
-              <span class="var-item">Tipo de dieta</span>
-              <span class="var-item">Número de comidas/día</span>
-              <span class="var-item">Tiempo disponible para cocinar</span>
-              <span class="var-item">Presupuesto semanal</span>
-              <span class="var-item">Comidas habituales</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="var-group" onclick="toggleGroup(this)">
-          <div class="var-group-header">
-            <span class="var-group-icon">📅</span>
-            <span class="var-group-title">Contexto temporal</span>
-            <span class="var-group-count">2 vars</span>
-            <span class="var-group-arrow">▼</span>
-          </div>
-          <div class="var-group-body">
-            <div class="var-list">
-              <span class="var-item">Mes actual (temporada de alimentos)</span>
-              <span class="var-item">Día de la semana</span>
-            </div>
-          </div>
-        </div>
-
+<!-- SHOWCASE: ENTRENAMIENTO -->
+<section class="sb light flip">
+  <div class="sb-inner">
+    <div class="sb-phone reveal-scale">
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-entreno.jpg" alt="Plan de entrenamiento HerAI" loading="lazy">
       </div>
+    </div>
+    <div class="sb-text reveal-right reveal-delay-1">
+      <span class="sb-eyebrow">Plan de entrenamiento</span>
+      <h2 class="sb-title">Entrena según<br><em>cómo te sientes hoy.</em></h2>
+      <p class="sb-desc">Tu plan semanal de entrenamiento se adapta a tu fase hormonal. No es lo mismo entrenar en fase folicular — cuando el estrógeno está alto y la fuerza es máxima — que en fase lútea, donde el cuerpo necesita recuperación activa.</p>
+      <ul class="sb-features">
+        <li class="sb-feature">
+          <span class="sb-feature-icon">💪</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Ejercicios con series, reps y tempo</div>
+            <p class="sb-feature-desc">Press de hombro 3x10 tempo 3-1-2, Remo con mancuerna 3x10 tempo 3-1-2... Cada ejercicio con todos los detalles para ejecutarlo bien.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🔥</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Calentamiento y vuelta a la calma</div>
+            <p class="sb-feature-desc">Movilidad de hombros, rotaciones de cadera, estiramientos de pectoral... El plan completo, no solo los ejercicios principales.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">😴</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Descanso activo cuando toca</div>
+            <p class="sb-feature-desc">Sábado: Descanso activo — caminar 20-30 min o estirar suavemente. HerAI sabe cuándo tu cuerpo necesita parar.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: CHAT -->
+<section class="sb dark" id="showcase-chat">
+  <div class="sb-inner">
+    <div class="sb-text reveal-left">
+      <span class="sb-eyebrow">Asistente IA</span>
+      <h2 class="sb-title">Una IA que sabe<br><em>quién eres hoy.</em></h2>
+      <p class="sb-desc">El chat de HerAI no es un chatbot genérico. Conoce tu fase del ciclo, tu día exacto, cuándo te viene el período y tu plan de comidas. Cuando le dices "me duele la cabeza", sabe que estás en día 29/29 y que el período llega en 0 días.</p>
+      <ul class="sb-features">
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🧠</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Contexto hormonal completo en cada respuesta</div>
+            <p class="sb-feature-desc">Fase, día del ciclo, próximo período, plan actual — todo disponible para la IA en cada conversación. Sin repetirle nada.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🩺</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Respuestas conectadas a tu plan real</div>
+            <p class="sb-feature-desc">"Bebe suficiente agua y agrega magnesio a tu dieta, ya que puede ayudar..." — no es una respuesta genérica, está conectada a lo que ya comes.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🔒</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Privacidad garantizada</div>
+            <p class="sb-feature-desc">Tu contexto hormonal se envía de forma cifrada y no se almacena en servidores externos. Tus datos son tuyos.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="sb-phone reveal-scale reveal-delay-1">
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-chat.jpg" alt="Chat IA de HerAI" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: CICLO -->
+<section class="sb light flip">
+  <div class="sb-inner">
+    <div class="sb-phone reveal-scale">
+      <div class="phone-frame">
+        <img class="phone-screen" src="img/screen-ciclo.jpg" alt="Seguimiento del ciclo en HerAI" loading="lazy">
+      </div>
+    </div>
+    <div class="sb-text reveal-right reveal-delay-1">
+      <span class="sb-eyebrow">Seguimiento del ciclo</span>
+      <h2 class="sb-title">Predicciones basadas<br><em>en tu historial real.</em></h2>
+      <p class="sb-desc">HerAI no usa el promedio de 28 días que usan todas las apps. Usa tus ciclos reales registrados para predecir cuándo te viene el período, con qué variabilidad y con qué nivel de confianza.</p>
+      <ul class="sb-features">
+        <li class="sb-feature">
+          <span class="sb-feature-icon">📅</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Ciclo medio calculado con tus datos</div>
+            <p class="sb-feature-desc">28 días de ciclo medio, ±1.7 días de variabilidad, ovulación estimada en día 14. Todo basado en tus 4 ciclos registrados, no en estadísticas genéricas.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🔮</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Predicción con nivel de confianza</div>
+            <p class="sb-feature-desc">"Próxima menstruación: 7 abr — Media confianza, ±1.5 días de variabilidad." HerAI no finge certeza que no tiene.</p>
+          </div>
+        </li>
+        <li class="sb-feature">
+          <span class="sb-feature-icon">🗓️</span>
+          <div class="sb-feature-body">
+            <div class="sb-feature-title">Calendario visual del mes</div>
+            <p class="sb-feature-desc">Ve de un vistazo en qué fase estarás cada día del mes. Planifica tu vida — entrenamientos, reuniones importantes, viajes — con tu ciclo en mente.</p>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
@@ -2245,22 +2107,10 @@ h3.condition-name {
 <!-- MEDICAL CONDITIONS -->
 <section id="conditions" class="light-section">
   <div class="section-inner">
-    <div class="showcase-row reveal" style="margin-top:0;padding-top:0;border-top:none;margin-bottom:72px">
-      <div class="showcase-text">
-        <div class="section-label">Condiciones de salud</div>
-        <h3>Adaptada a tu<br><em>realidad clínica</em></h3>
-        <p>HerAI no ignora tu diagnóstico. Si tienes SOP, endometriosis, hipotiroidismo u otra condición, el plan cambia radicalmente para trabajar con ella, no a pesar de ella.</p>
-        <div class="showcase-chips">
-          <span class="showcase-chip">SOP</span>
-          <span class="showcase-chip">Endometriosis</span>
-          <span class="showcase-chip">Hipotiroidismo</span>
-          <span class="showcase-chip">Resistencia insulina</span>
-          <span class="showcase-chip">Migraña</span>
-        </div>
-      </div>
-      <div class="phone-frame reveal-scale reveal-delay-1">
-        <img class="phone-screen" src="img/screen-hormonas.jpg" alt="Pantalla hormonas HerAI" loading="lazy">
-      </div>
+    <div class="conditions-header reveal" style="text-align:center;max-width:600px;margin:0 auto 72px">
+      <div class="section-label" style="justify-content:center">Condiciones de salud</div>
+      <h2 class="section-title">Adaptada a tu <em>realidad clínica</em></h2>
+      <p class="section-desc" style="margin:0 auto">HerAI no ignora tu diagnóstico. Si tienes SOP, endometriosis, hipotiroidismo u otra condición, el plan cambia radicalmente para trabajar con ella, no a pesar de ella.</p>
     </div>
     <div class="conditions-grid">
 
