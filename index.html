@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>HerAI — Tu ciclo, tu superpoder</title>
 <meta name="description" content="HerAI personaliza tu nutrición y entrenamiento según tu ciclo menstrual y fases hormonales. Inteligencia artificial al servicio de tu biología.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,14 +71,17 @@ nav {
   top: 0; left: 0; right: 0;
   z-index: 100;
   padding: 20px 48px;
+  padding-top: max(20px, calc(env(safe-area-inset-top) + 12px));
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: background 0.4s ease, padding 0.3s ease, border-color 0.4s ease;
+  background: #1a0a14;
 }
 nav.scrolled {
   background: #1a0a14;
-  padding: 14px 48px;
+  padding-top: max(14px, calc(env(safe-area-inset-top) + 8px));
+  padding-bottom: 14px;
   border-bottom: 1px solid rgba(123,34,82,0.18);
 }
 nav.on-light {
