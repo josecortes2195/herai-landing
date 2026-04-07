@@ -2253,7 +2253,7 @@ window.addEventListener('scroll', () => {
 
   // detect if nav is over a light section
   const navBottom = navbar.getBoundingClientRect().bottom + window.scrollY;
-  const lightSections = document.querySelectorAll('.light-section');
+  const lightSections = document.querySelectorAll('.light-section, .sb.light');
   let overLight = false;
   lightSections.forEach(sec => {
     const top = sec.offsetTop;
