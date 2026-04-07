@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HerAI — Tu ciclo, tu superpoder</title>
+<meta name="description" content="HerAI personaliza tu nutrición y entrenamiento según tu ciclo menstrual y fases hormonales. Inteligencia artificial al servicio de tu biología.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+<style>
+/* ─── RESET & BASE ────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --dark:      #1a0a14;
+  --dark2:     #2d1228;
+  --dark3:     #3d1a30;
+  --burg:      #7b2252;
+  --rose:      #c96080;
+  --rose-l:    #f0c8d4;
+  --rose-xl:   #faf0f3;
+  --gold:      #c9a96e;
+  --gold-l:    #f5e8cc;
+  --cream:     #f5ede8;
+  --white:     #ffffff;
+  --muted:     rgba(245,237,232,0.45);
+  --muted2:    rgba(245,237,232,0.22);
+
+  --men:  #c85070;
+  --fol:  #b87820;
+  --ovu:  #7b2252;
+  --lut:  #6050a0;
+
+  --men-l:  rgba(200,80,112,0.12);
+  --fol-l:  rgba(184,120,32,0.12);
+  --ovu-l:  rgba(123,34,82,0.12);
+  --lut-l:  rgba(96,80,160,0.12);
+
+  --ff-serif: 'Playfair Display', Georgia, serif;
+  --ff-sans:  'DM Sans', system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--ff-sans);
+  background: var(--dark);
+  color: var(--cream);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── GRAIN OVERLAY ──────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.3s ease, border-color 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(26,10,20,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 14px 48px;
+  border-bottom: 1px solid rgba(123,34,82,0.18);
+}
+nav.on-light {
+  background: rgba(250,244,240,0.92) !important;
+  border-bottom-color: rgba(123,34,82,0.12) !important;
+}
+nav.on-light .nav-logo { color: #1c0e14; }
+nav.on-light .nav-links a { color: rgba(28,14,20,0.5); }
+nav.on-light .nav-links a:hover { color: #1c0e14; }
+nav.on-light .nav-hamburger span { background: #1c0e14; }
+.nav-logo {
+  font-family: var(--ff-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--cream);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.4s ease;
+}
+.nav-logo span {
+  display: inline-block;
+  width: 28px; height: 28px;
+  background: conic-gradient(from 180deg, var(--gold) 0%, var(--rose) 40%, var(--burg) 70%, var(--gold) 100%);
+  border-radius: 50%;
+  animation: spin-slow 12s linear infinite;
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.4s ease;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-cta {
+  padding: 9px 22px;
+  background: transparent;
+  border: 1px solid rgba(201,96,128,0.5);
+  border-radius: 100px;
+  color: var(--rose-l) !important;
+  font-size: 0.82rem !important;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+.nav-cta:hover {
+  background: rgba(201,96,128,0.12) !important;
+  border-color: var(--rose) !important;
+  color: var(--cream) !important;
+}
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.nav-hamburger span { width: 22px; height: 1.5px; background: var(--cream); border-radius: 2px; transition: all 0.3s; }
+
+/* ─── HERO ───────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  overflow: hidden;
+}
+
+/* Orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(123,34,82,0.35) 0%, transparent 70%);
+  top: -100px; left: -150px;
+  animation: drift-1 18s ease-in-out infinite;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(96,80,160,0.22) 0%, transparent 70%);
+  top: 10%; right: -120px;
+  animation: drift-2 22s ease-in-out infinite;
+}
+.orb-3 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201,96,128,0.18) 0%, transparent 70%);
+  bottom: 5%; left: 30%;
+  animation: drift-3 16s ease-in-out infinite;
+}
+.orb-4 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(201,169,110,0.12) 0%, transparent 70%);
+  top: 40%; left: 15%;
+  animation: drift-4 20s ease-in-out infinite;
+}
+@keyframes drift-1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(60px,40px) scale(1.05)} 66%{transform:translate(-30px,70px) scale(0.95)} }
+@keyframes drift-2 { 0%,100%{transform:translate(0,0)} 40%{transform:translate(-50px,30px)} 70%{transform:translate(20px,-40px)} }
+@keyframes drift-3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,-30px) scale(1.1)} }
+@keyframes drift-4 { 0%,100%{transform:translate(0,0)} 60%{transform:translate(30px,50px)} }
+
+/* Star dots */
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: var(--rose-l);
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle var(--dur, 4s) var(--delay, 0s) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100%{opacity:0;transform:scale(0.5)}
+  50%{opacity:var(--op,0.6);transform:scale(1)}
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: reveal 0.8s var(--ease-out) 0.2s forwards;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 30px; height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+h1.hero-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(3.2rem, 8vw, 7rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -1px;
+  color: var(--cream);
+  margin-bottom: 12px;
+  max-width: 900px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: reveal 1s var(--ease-out) 0.4s forwards;
+}
+h1.hero-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: reveal 0.9s var(--ease-out) 0.65s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: reveal 0.8s var(--ease-out) 0.85s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, var(--burg) 0%, var(--rose) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-family: var(--ff-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(123,34,82,0.4), 0 0 0 0 rgba(201,96,128,0);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+  border-radius: inherit;
+}
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 40px rgba(123,34,82,0.5), 0 0 0 4px rgba(201,96,128,0.15);
+}
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 28px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(245,237,232,0.15);
+  border-radius: 100px;
+  font-family: var(--ff-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.btn-ghost:hover {
+  color: var(--cream);
+  border-color: rgba(245,237,232,0.3);
+  background: rgba(245,237,232,0.04);
+}
+
+.hero-badges {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 72px;
+  opacity: 0;
+  animation: reveal 0.8s var(--ease-out) 1.1s forwards;
+}
+.hero-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.hero-badge-num {
+  font-family: var(--ff-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  background: linear-gradient(135deg, var(--rose-l), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-badge-label {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.hero-badges-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(245,237,232,0.1);
+  align-self: center;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted2);
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  animation: float-y 2s ease-in-out infinite;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--rose), transparent);
+}
+@keyframes float-y { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+@keyframes reveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION SHARED ─────────────────────────────────────── */
+section { position: relative; }
+.section-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 20px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: currentColor;
+}
+
+h2.section-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+h2.section-title em {
+  font-style: italic;
+  color: var(--rose);
+}
+
+.section-desc {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.75;
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(70px) scale(0.94);
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-90px) scale(0.96);
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0) scale(1); }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(90px) scale(0.96);
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0) scale(1); }
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.75);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+.reveal-tilt {
+  opacity: 0;
+  transform: translateY(60px) rotate(-3deg) scale(0.95);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.reveal-tilt.visible { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+.reveal-delay-3 { transition-delay: 0.36s; }
+.reveal-delay-4 { transition-delay: 0.48s; }
+
+/* ─── LIGHT SECTIONS ─────────────────────────────────────── */
+.light-section {
+  background: #faf4f0 !important;
+  --cream:  #1c0e14;
+  --muted:  #6b4050;
+  --muted2: #9a7080;
+}
+.light-section .section-label       { color: var(--burg); }
+.light-section h2.section-title     { color: #1c0e14; }
+.light-section h2.section-title em  { color: var(--rose); }
+.light-section h3.phase-name,
+.light-section h3.feature-title,
+.light-section h3.how-step-title,
+.light-section h3.condition-name,
+.light-section .callout-title,
+.light-section .macro-phase-name    { color: #1c0e14; }
+.light-section .section-desc,
+.light-section .feature-desc,
+.light-section .how-step-desc,
+.light-section .condition-adapts li,
+.light-section .phase-items li,
+.light-section .callout-desc,
+.light-section .macro-val,
+.light-section .phase-name-es       { color: #6b4050; }
+.light-section .feature-num,
+.light-section .cycle-label-inner   { color: rgba(28,14,20,0.08); }
+
+/* cards on light bg */
+.light-section .feature-card,
+.light-section .how-step,
+.light-section .nutrition-callout,
+.light-section .var-group,
+.light-section .macro-table-wrap    {
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(123,34,82,0.1);
+  box-shadow: 0 2px 20px rgba(123,34,82,0.06);
+}
+.light-section .feature-card:hover,
+.light-section .how-step:hover,
+.light-section .nutrition-callout:hover { background: #fff; }
+
+.light-section .phase-card::before  { opacity: 0.1; }
+.light-section .phase-card::after   { opacity: 0.3; }
+
+/* phase cards light */
+.light-section .phase-card {
+  background: #fff;
+}
+.light-section .phase-dot           { box-shadow: 0 0 10px var(--phase-color); }
+
+/* condition cards light */
+.light-section .condition-card {
+  background: rgba(255,255,255,0.8);
+  border-color: rgba(123,34,82,0.08);
+  box-shadow: 0 2px 16px rgba(123,34,82,0.06);
+}
+.light-section .condition-card:hover { background: #fff; }
+.light-section .condition-acronym   { opacity: 0.9; }
+
+/* macro table light */
+.light-section .macro-table-head    {
+  background: rgba(123,34,82,0.06);
+  border-color: rgba(123,34,82,0.08);
+}
+.light-section .macro-th            { color: #9a7080; }
+.light-section .macro-row           { border-color: rgba(123,34,82,0.05); }
+.light-section .macro-row:hover     { background: rgba(123,34,82,0.02); }
+.light-section .macro-val strong    { color: #1c0e14; }
+
+/* var group accordion light */
+.light-section .var-group-header    { background: rgba(255,255,255,0.5); }
+.light-section .var-group-header:hover { background: rgba(255,255,255,0.9); }
+.light-section .var-group-body      { border-color: rgba(123,34,82,0.06); }
+.light-section .var-group-body .var-list { background: rgba(123,34,82,0.02); }
+.light-section .var-group-title     { color: #1c0e14; }
+.light-section .var-group-arrow     { color: #9a7080; }
+.light-section .var-item            {
+  background: rgba(123,34,82,0.04);
+  border-color: rgba(123,34,82,0.1);
+  color: #6b4050;
+}
+.light-section .how-chip            {
+  background: rgba(123,34,82,0.05);
+  border-color: rgba(123,34,82,0.12);
+  color: #6b4050;
+}
+
+/* personal stats light */
+.light-section .personal-stat-label { color: #9a7080; }
+
+/* how-step step number stays gradient */
+.light-section .how-step-num { color: #fff; }
+
+/* phase energy bar */
+.light-section .phase-energy-bar    { background: rgba(123,34,82,0.08); }
+.light-section .phase-energy-label  { color: #9a7080; }
+.light-section .phase-divider       { opacity: 0.25; }
+.light-section .phase-section-title { opacity: 1; }
+
+/* science pillars */
+.light-section .science-pillar-icon {
+  background: rgba(123,34,82,0.06);
+  border-color: rgba(123,34,82,0.14);
+}
+.light-section .science-pillar-name { color: #1c0e14; }
+.light-section blockquote.science-quote { color: #1c0e14; }
+.light-section .science-source      { color: #9a7080; }
+.light-section .science-quote-mark  { color: var(--rose); opacity: 0.25; }
+
+/* nav bg on light sections - handled via JS */
+
+/* ─── FEATURES ───────────────────────────────────────────── */
+#features {
+  padding: 120px 0;
+  background: linear-gradient(to bottom, var(--dark), #21102a 50%, var(--dark));
+}
+.features-header {
+  margin-bottom: 72px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+.feature-card {
+  position: relative;
+  padding: 48px 44px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(123,34,82,0.12);
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+.feature-card:first-child { border-radius: 24px 0 0 0; }
+.feature-card:nth-child(2) { border-radius: 0 24px 0 0; }
+.feature-card:nth-child(3) { border-radius: 0 0 0 24px; }
+.feature-card:last-child { border-radius: 0 0 24px 0; }
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(201,96,128,0.07) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.feature-card:hover { background: rgba(255,255,255,0.04); }
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.feature-icon-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.15;
+}
+.fi-rose  .feature-icon-bg { background: var(--rose); }
+.fi-burg  .feature-icon-bg { background: var(--burg); }
+.fi-gold  .feature-icon-bg { background: var(--gold); }
+.fi-lut   .feature-icon-bg { background: var(--lut); }
+
+.feature-num {
+  position: absolute;
+  top: 32px; right: 40px;
+  font-family: var(--ff-serif);
+  font-size: 4rem;
+  font-weight: 300;
+  color: rgba(245,237,232,0.04);
+  line-height: 1;
+  user-select: none;
+}
+
+h3.feature-title {
+  font-family: var(--ff-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.feature-desc {
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.feature-tag {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  background: rgba(201,96,128,0.1);
+  color: var(--rose-l);
+  border: 1px solid rgba(201,96,128,0.2);
+}
+
+/* ─── PHASES ─────────────────────────────────────────────── */
+#phases {
+  padding: 120px 0 140px;
+}
+.phases-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 80px;
+}
+.phases-cycle-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.cycle-ring {
+  position: relative;
+  width: 200px; height: 200px;
+}
+.cycle-ring svg {
+  position: absolute;
+  inset: 0;
+  animation: spin-slow 30s linear infinite;
+}
+.cycle-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.cycle-moon {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.cycle-label-inner {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.phases-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.phase-card {
+  position: relative;
+  padding: 36px 28px 32px;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.3s var(--ease-out);
+}
+.phase-card:hover { transform: translateY(-6px); }
+
+.phase-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--phase-color);
+  opacity: 0.08;
+}
+.phase-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--phase-color);
+  opacity: 0.22;
+}
+
+.phase-card.men  { --phase-color: var(--men); }
+.phase-card.fol  { --phase-color: var(--fol); }
+.phase-card.ovu  { --phase-color: var(--ovu); }
+.phase-card.lut  { --phase-color: var(--lut); }
+
+.phase-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--phase-color);
+  margin-bottom: 20px;
+  box-shadow: 0 0 12px var(--phase-color);
+}
+.phase-days {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--phase-color);
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+h3.phase-name {
+  font-family: var(--ff-serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.phase-name-es {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+}
+
+.phase-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--phase-color);
+  opacity: 0.15;
+  margin-bottom: 20px;
+}
+
+.phase-section-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--phase-color);
+  opacity: 0.75;
+  margin-bottom: 8px;
+}
+.phase-items {
+  list-style: none;
+  margin-bottom: 18px;
+}
+.phase-items li {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--muted);
+  padding: 4px 0;
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.4;
+}
+.phase-items li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 5px; height: 1px;
+  background: var(--phase-color);
+  opacity: 0.6;
+}
+
+.phase-energy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+.phase-energy-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.phase-energy-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.phase-energy-fill {
+  height: 100%;
+  background: var(--phase-color);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+/* ─── SCIENCE / PHILOSOPHY ───────────────────────────────── */
+#science {
+  padding: 100px 0;
+  background: linear-gradient(to bottom, var(--dark), #200d28 40%, var(--dark));
+}
+.science-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 32px;
+  text-align: center;
+}
+.science-quote-mark {
+  font-family: var(--ff-serif);
+  font-size: 8rem;
+  font-weight: 300;
+  line-height: 0.5;
+  color: var(--rose);
+  opacity: 0.2;
+  margin-bottom: 32px;
+  display: block;
+}
+blockquote.science-quote {
+  font-family: var(--ff-serif);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--cream);
+  margin-bottom: 40px;
+  position: relative;
+}
+blockquote.science-quote em {
+  color: var(--rose-l);
+  font-style: normal;
+}
+.science-source {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 72px;
+}
+
+.science-pillars {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.science-pillar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 160px;
+  text-align: center;
+}
+.science-pillar-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: rgba(201,96,128,0.08);
+  border: 1px solid rgba(201,96,128,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.science-pillar-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: 0.5px;
+}
+.science-pillar-desc {
+  font-size: 0.72rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+/* ─── STORE BADGES ───────────────────────────────────────── */
+.store-badges {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+.store-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(245,237,232,0.1);
+  text-decoration: none;
+  color: var(--cream);
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.store-badge:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(245,237,232,0.2);
+  transform: translateY(-2px);
+}
+.store-badge-icon { font-size: 1.4rem; }
+.store-badge-sub {
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: var(--muted);
+  display: block;
+  letter-spacing: 0.3px;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  padding: 48px 32px 32px;
+  border-top: 1px solid rgba(245,237,232,0.06);
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-logo {
+  font-family: var(--ff-serif);
+  font-size: 1.2rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+.footer-copy {
+  font-size: 0.78rem;
+  color: var(--muted2);
+  line-height: 1.6;
+  text-align: center;
+}
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 0.78rem;
+  color: var(--muted2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--muted); }
+
+/* ─── MOBILE NAV MENU ────────────────────────────────────── */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,10,20,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 200;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--ff-serif);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.mobile-menu a:hover { opacity: 1; }
+.mobile-menu-close {
+  position: absolute;
+  top: 24px; right: 28px;
+  font-size: 1.6rem;
+  color: var(--muted);
+  cursor: pointer;
+  background: none; border: none;
+  line-height: 1;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-card:first-child  { border-radius: 24px 24px 0 0; }
+  .feature-card:nth-child(2) { border-radius: 0; }
+  .feature-card:nth-child(3) { border-radius: 0; }
+  .feature-card:last-child   { border-radius: 0 0 24px 24px; }
+
+  .phases-intro { grid-template-columns: 1fr; gap: 32px; }
+  .phases-cycle-diagram { display: none; }
+  .phases-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .science-pillars { gap: 28px; display: grid; grid-template-columns: repeat(2,1fr); }
+
+  .footer-inner { flex-direction: column; text-align: center; }
+  .hero-badges { gap: 16px; }
+  .hero-scroll { display: none; }
+}
+
+@media (max-width: 640px) {
+  /* secciones — reducir padding vertical */
+  #features, #phases, #how-it-works,
+  #nutrition-detail, #personalization,
+  #conditions, #science { padding: 72px 0; }
+
+  .section-inner { padding: 0 20px; }
+
+  /* hero */
+  #hero { padding: 100px 20px 60px; }
+  .hero-badges { flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .hero-badges-divider { display: none; }
+  .hero-badge-num { font-size: 1.5rem; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-ghost { width: 100%; max-width: 320px; justify-content: center; }
+
+  /* phases */
+  .phases-grid { grid-template-columns: 1fr; }
+  .phases-intro { margin-bottom: 40px; }
+
+  /* how it works */
+  .how-steps { grid-template-columns: 1fr; }
+  .how-steps::before { display: none; }
+  .how-step { border-radius: 0 !important; }
+  .how-step:first-child { border-radius: 24px 24px 0 0 !important; }
+  .how-step:last-child  { border-radius: 0 0 24px 24px !important; }
+  .how-header { margin-bottom: 40px; }
+  .how-header h2 { font-size: 1.8rem; }
+
+  /* nutrition */
+  .nutrition-layout { grid-template-columns: 1fr; gap: 40px; }
+  .macro-table-head,
+  .macro-row { grid-template-columns: 1.4fr 1fr 1fr; }
+  .macro-th:last-child,
+  .macro-row .macro-val:last-child { display: none; }
+
+  /* personalization */
+  .personal-layout { grid-template-columns: 1fr; gap: 40px; }
+  .personal-stat-row { gap: 20px; flex-wrap: wrap; }
+  .personal-stat-num { font-size: 2rem; }
+
+  /* conditions */
+  .conditions-grid { grid-template-columns: 1fr; }
+  .conditions-header { margin-bottom: 40px; }
+
+  /* science */
+  .science-pillars { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .science-inner { padding: 0 20px; }
+  blockquote.science-quote { font-size: 1.2rem; }
+
+  /* store badges */
+  .store-badges { flex-direction: column; align-items: center; }
+
+  /* footer */
+  footer { padding: 40px 20px 24px; }
+  .footer-inner { flex-direction: column; text-align: center; gap: 14px; }
+  .footer-links { justify-content: center; flex-wrap: wrap; gap: 16px; }
+}
+
+/* ─── HOW IT BUILDS YOUR PLAN ────────────────────────────── */
+#how-it-works {
+  padding: 120px 0;
+  background: linear-gradient(to bottom, var(--dark), #1e0d22 50%, var(--dark));
+}
+.how-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 80px;
+}
+.how-header .section-label { justify-content: center; }
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  position: relative;
+}
+.how-steps::before {
+  content: '';
+  position: absolute;
+  top: 52px;
+  left: calc(100% / 6);
+  width: calc(100% * 2/3);
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,96,128,0.3), rgba(201,96,128,0.3), transparent);
+  z-index: 0;
+}
+.how-step {
+  position: relative;
+  padding: 40px 36px 36px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(123,34,82,0.1);
+  z-index: 1;
+  transition: background 0.3s;
+}
+.how-step:first-child { border-radius: 24px 0 0 24px; }
+.how-step:last-child  { border-radius: 0 24px 24px 0; }
+.how-step:hover { background: rgba(255,255,255,0.04); }
+
+.how-step-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--burg), var(--rose));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(123,34,82,0.35);
+}
+h3.how-step-title {
+  font-family: var(--ff-serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.how-step-desc {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.how-step-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+}
+.how-chip {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  background: rgba(245,237,232,0.05);
+  border: 1px solid rgba(245,237,232,0.1);
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+
+/* ─── DEEP PERSONALIZATION ───────────────────────────────── */
+#personalization {
+  padding: 120px 0;
+}
+.personal-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.personal-left .section-desc { margin-bottom: 36px; }
+
+.personal-stat-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 8px;
+}
+.personal-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.personal-stat-num {
+  font-family: var(--ff-serif);
+  font-size: 2.8rem;
+  font-weight: 300;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.personal-stat-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.personal-vars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.var-group {
+  border: 1px solid rgba(123,34,82,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.var-group-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.025);
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+.var-group-header:hover { background: rgba(255,255,255,0.04); }
+.var-group-icon {
+  font-size: 1rem;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  background: rgba(201,96,128,0.1);
+  flex-shrink: 0;
+}
+.var-group-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cream);
+  flex: 1;
+}
+.var-group-count {
+  font-size: 0.72rem;
+  color: var(--rose);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.var-group-arrow {
+  font-size: 0.6rem;
+  color: var(--muted2);
+  transition: transform 0.25s;
+}
+.var-group.open .var-group-arrow { transform: rotate(180deg); }
+.var-group-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+.var-group.open .var-group-body { max-height: 300px; }
+.var-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 20px 16px;
+  background: rgba(0,0,0,0.15);
+  border-top: 1px solid rgba(123,34,82,0.08);
+}
+.var-item {
+  padding: 4px 11px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+  background: rgba(245,237,232,0.04);
+  border: 1px solid rgba(245,237,232,0.08);
+}
+
+/* ─── MEDICAL CONDITIONS ─────────────────────────────────── */
+#conditions {
+  padding: 120px 0;
+}
+.conditions-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 72px;
+}
+.conditions-header .section-label { justify-content: center; }
+
+.conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.condition-card {
+  padding: 36px 30px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(123,34,82,0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s var(--ease-out), background 0.2s;
+}
+.condition-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.04);
+}
+.condition-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--cond-color);
+  opacity: 0.5;
+}
+.condition-card.c-sop    { --cond-color: var(--rose); }
+.condition-card.c-endo   { --cond-color: var(--burg); }
+.condition-card.c-hipo   { --cond-color: var(--gold); }
+.condition-card.c-ins    { --cond-color: #6050a0; }
+.condition-card.c-mig    { --cond-color: #2a7a7a; }
+.condition-card.c-spm    { --cond-color: #b87820; }
+
+.condition-emoji {
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  display: block;
+}
+h3.condition-name {
+  font-family: var(--ff-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+.condition-acronym {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cond-color);
+  opacity: 0.8;
+  margin-bottom: 16px;
+  display: block;
+}
+.condition-adapts {
+  list-style: none;
+  margin: 0;
+}
+.condition-adapts li {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--muted);
+  padding: 5px 0;
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.4;
+}
+.condition-adapts li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 12px;
+  width: 6px; height: 1px;
+  background: var(--cond-color);
+  opacity: 0.5;
+}
+
+/* ─── MACROS / NUTRITION DETAIL ──────────────────────────── */
+#nutrition-detail {
+  padding: 120px 0;
+}
+.nutrition-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+}
+.macro-table-wrap {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(123,34,82,0.12);
+  border-radius: 24px;
+  overflow: hidden;
+}
+.macro-table-head {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  padding: 14px 24px;
+  background: rgba(123,34,82,0.12);
+  border-bottom: 1px solid rgba(123,34,82,0.12);
+}
+.macro-th {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.macro-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(245,237,232,0.04);
+  align-items: center;
+  transition: background 0.2s;
+}
+.macro-row:last-child { border-bottom: none; }
+.macro-row:hover { background: rgba(255,255,255,0.02); }
+.macro-phase {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.macro-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.macro-phase-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cream);
+}
+.macro-val {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.macro-val strong {
+  color: var(--cream);
+  font-weight: 500;
+}
+
+.nutrition-callouts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.nutrition-callout {
+  padding: 24px 28px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(123,34,82,0.1);
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  transition: background 0.2s;
+}
+.nutrition-callout:hover { background: rgba(255,255,255,0.04); }
+.callout-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.callout-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 6px;
+}
+.callout-desc {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ─── RESPONSIVE additions ───────────────────────────────── */
+@media (max-width: 900px) {
+  .how-steps { grid-template-columns: 1fr; }
+  .how-steps::before { display: none; }
+  .how-step:first-child { border-radius: 24px 24px 0 0; }
+  .how-step:last-child  { border-radius: 0 0 24px 24px; }
+
+  .personal-layout { grid-template-columns: 1fr; gap: 48px; }
+  .personal-stat-row { gap: 24px; }
+
+  .conditions-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .nutrition-layout { grid-template-columns: 1fr; gap: 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <span></span>
+    HerAI
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Funciones</a></li>
+    <li><a href="#phases">Tu ciclo</a></li>
+    <li><a href="#personalization">Personalización</a></li>
+    <li><a href="#conditions">Condiciones</a></li>
+    <li><a href="#science">Ciencia</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="menuClose">✕</button>
+  <a href="#features" class="menu-link">Funciones</a>
+  <a href="#phases" class="menu-link">Tu ciclo</a>
+  <a href="#personalization" class="menu-link">Personalización</a>
+  <a href="#conditions" class="menu-link">Condiciones</a>
+  <a href="#science" class="menu-link">Ciencia</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="hero-stars" id="heroStars"></div>
+
+  <div class="hero-eyebrow">Tu compañera hormonal con IA</div>
+
+  <h1 class="hero-title">
+    Tu ciclo es<br>
+    tu <em>superpoder</em>
+  </h1>
+
+  <p class="hero-sub">
+    HerAI personaliza tu nutrición y entrenamiento cada día
+    según tu fase hormonal — porque tu biología no es estática,
+    y tu rutina tampoco debería serlo.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#features" class="btn-primary">
+      Descubrir HerAI
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#phases" class="btn-ghost">Ver cómo funciona</a>
+  </div>
+
+  <div class="hero-badges">
+    <div class="hero-badge">
+      <span class="hero-badge-num">4</span>
+      <span class="hero-badge-label">fases del ciclo</span>
+    </div>
+    <div class="hero-badges-divider"></div>
+    <div class="hero-badge">
+      <span class="hero-badge-num">IA</span>
+      <span class="hero-badge-label">personalizada</span>
+    </div>
+    <div class="hero-badges-divider"></div>
+    <div class="hero-badge">
+      <span class="hero-badge-num">2</span>
+      <span class="hero-badge-label">plataformas</span>
+    </div>
+    <div class="hero-badges-divider"></div>
+    <div class="hero-badge">
+      <span class="hero-badge-num">100%</span>
+      <span class="hero-badge-label">para ti</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <div class="features-header reveal">
+      <div class="section-label">Lo que hace HerAI</div>
+      <h2 class="section-title">
+        Inteligencia que entiende<br>
+        <em>tu biología</em>
+      </h2>
+      <p class="section-desc">
+        Cada función está diseñada para trabajar con tu cuerpo,
+        no contra él. Porque las mujeres no somos hombres de 70kg.
+      </p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card fi-rose reveal-tilt">
+        <span class="feature-num">01</span>
+        <div class="feature-icon fi-rose">
+          <div class="feature-icon-bg"></div>
+          🧠
+        </div>
+        <h3 class="feature-title">IA personalizada para ti</h3>
+        <p class="feature-desc">
+          Impulsada por LLaMA 3.3 70B, nuestra IA aprende tus patrones,
+          preferencias y objetivos para ofrecerte recomendaciones únicas cada día.
+          No son templates genéricos — es un plan que cambia contigo.
+        </p>
+        <span class="feature-tag">LLaMA 3.3 70B</span>
+      </div>
+
+      <div class="feature-card fi-gold reveal-tilt reveal-delay-1">
+        <span class="feature-num">02</span>
+        <div class="feature-icon fi-gold">
+          <div class="feature-icon-bg"></div>
+          🥗
+        </div>
+        <h3 class="feature-title">Nutrición por fase hormonal</h3>
+        <p class="feature-desc">
+          Lo que necesitas comer en la fase menstrual no es lo mismo que
+          en la ovulatoria. HerAI adapta macros, alimentos y recetas
+          según los cambios hormonales de cada etapa de tu ciclo.
+        </p>
+        <span class="feature-tag">Nutrición adaptativa</span>
+      </div>
+
+      <div class="feature-card fi-burg reveal-tilt reveal-delay-2">
+        <span class="feature-num">03</span>
+        <div class="feature-icon fi-burg">
+          <div class="feature-icon-bg"></div>
+          💪
+        </div>
+        <h3 class="feature-title">Entrenamiento inteligente</h3>
+        <p class="feature-desc">
+          Los niveles de estrógeno y progesterona afectan tu fuerza,
+          resistencia y recuperación. HerAI te propone el tipo de
+          entrenamiento óptimo para cada fase, maximizando resultados
+          y previniendo el sobreentrenamiento.
+        </p>
+        <span class="feature-tag">Rendimiento real</span>
+      </div>
+
+      <div class="feature-card fi-lut reveal-tilt reveal-delay-3">
+        <span class="feature-num">04</span>
+        <div class="feature-icon fi-lut">
+          <div class="feature-icon-bg"></div>
+          🌙
+        </div>
+        <h3 class="feature-title">Seguimiento del ciclo</h3>
+        <p class="feature-desc">
+          Registra síntomas, energía, estado de ánimo y sueño para que
+          la IA afine cada vez más sus recomendaciones. Cuanto más la uses,
+          más precisa se vuelve — como una nutricionista que te conoce de verdad.
+        </p>
+        <span class="feature-tag">Aprende de ti</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section id="phases" class="light-section">
+  <div class="section-inner">
+
+    <div class="phases-intro">
+      <div class="reveal">
+        <div class="section-label">Cómo funciona</div>
+        <h2 class="section-title">
+          Tu ciclo tiene<br>
+          <em>cuatro ritmos</em>
+        </h2>
+        <p class="section-desc">
+          Cada fase hormonal tiene sus propias necesidades nutricionales y de
+          movimiento. HerAI lo sabe y te acompaña en cada una de ellas
+          con recomendaciones específicas.
+        </p>
+      </div>
+      <div class="phases-cycle-diagram reveal-scale reveal-delay-2">
+        <div class="cycle-ring">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <!-- Menstrual -->
+            <path d="M100,100 L100,15 A85,85 0 0,1 185,100 Z" fill="rgba(200,80,112,0.15)" stroke="rgba(200,80,112,0.4)" stroke-width="1"/>
+            <!-- Folicular -->
+            <path d="M100,100 L185,100 A85,85 0 0,1 100,185 Z" fill="rgba(184,120,32,0.15)" stroke="rgba(184,120,32,0.4)" stroke-width="1"/>
+            <!-- Ovulatoria -->
+            <path d="M100,100 L100,185 A85,85 0 0,1 15,100 Z" fill="rgba(123,34,82,0.15)" stroke="rgba(123,34,82,0.4)" stroke-width="1"/>
+            <!-- Lútea -->
+            <path d="M100,100 L15,100 A85,85 0 0,1 100,15 Z" fill="rgba(96,80,160,0.15)" stroke="rgba(96,80,160,0.4)" stroke-width="1"/>
+            <!-- Labels -->
+            <text x="130" y="62" fill="rgba(200,80,112,0.7)" font-size="9" font-family="DM Sans, sans-serif" text-anchor="middle">Mens.</text>
+            <text x="158" y="145" fill="rgba(184,120,32,0.7)" font-size="9" font-family="DM Sans, sans-serif" text-anchor="middle">Folic.</text>
+            <text x="62" y="155" fill="rgba(123,34,82,0.9)" font-size="9" font-family="DM Sans, sans-serif" text-anchor="middle">Ovul.</text>
+            <text x="42" y="72" fill="rgba(96,80,160,0.7)" font-size="9" font-family="DM Sans, sans-serif" text-anchor="middle">Lútea</text>
+            <!-- Center circle -->
+            <circle cx="100" cy="100" r="30" fill="rgba(26,10,20,0.9)" stroke="rgba(245,237,232,0.1)" stroke-width="1"/>
+          </svg>
+          <div class="cycle-center">
+            <span class="cycle-moon">🌙</span>
+            <span class="cycle-label-inner">ciclo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phases-grid">
+
+      <!-- MENSTRUAL -->
+      <div class="phase-card men reveal-left">
+        <div class="phase-dot"></div>
+        <div class="phase-days">Días 1–5</div>
+        <h3 class="phase-name">Menstrual</h3>
+        <div class="phase-name-es">descanso y restauración</div>
+        <div class="phase-divider"></div>
+
+        <div class="phase-section-title">Nutrición</div>
+        <ul class="phase-items">
+          <li>Hierro y proteína de calidad</li>
+          <li>Antiinflamatorios naturales</li>
+          <li>Omega-3 y magnesio</li>
+          <li>Reducir azúcares simples</li>
+        </ul>
+
+        <div class="phase-section-title">Movimiento</div>
+        <ul class="phase-items">
+          <li>Yoga restaurativo</li>
+          <li>Caminatas suaves</li>
+          <li>Estiramientos profundos</li>
+        </ul>
+
+        <div class="phase-energy">
+          <span class="phase-energy-label">Energía</span>
+          <div class="phase-energy-bar">
+            <div class="phase-energy-fill" style="width:25%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOLICULAR -->
+      <div class="phase-card fol reveal reveal-delay-1" style="transform-origin: bottom center">
+        <div class="phase-dot"></div>
+        <div class="phase-days">Días 6–13</div>
+        <h3 class="phase-name">Folicular</h3>
+        <div class="phase-name-es">energía en ascenso</div>
+        <div class="phase-divider"></div>
+
+        <div class="phase-section-title">Nutrición</div>
+        <ul class="phase-items">
+          <li>Carbohidratos complejos</li>
+          <li>Alimentos fermentados</li>
+          <li>Vitaminas del grupo B</li>
+          <li>Hidratación extra</li>
+        </ul>
+
+        <div class="phase-section-title">Movimiento</div>
+        <ul class="phase-items">
+          <li>HIIT y cardio</li>
+          <li>Nuevos ejercicios</li>
+          <li>Clases grupales</li>
+        </ul>
+
+        <div class="phase-energy">
+          <span class="phase-energy-label">Energía</span>
+          <div class="phase-energy-bar">
+            <div class="phase-energy-fill" style="width:65%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVULATORIA -->
+      <div class="phase-card ovu reveal reveal-delay-2" style="transform-origin: bottom center">
+        <div class="phase-dot"></div>
+        <div class="phase-days">Días 14–16</div>
+        <h3 class="phase-name">Ovulatoria</h3>
+        <div class="phase-name-es">pico de poder</div>
+        <div class="phase-divider"></div>
+
+        <div class="phase-section-title">Nutrición</div>
+        <ul class="phase-items">
+          <li>Proteína alta para músculo</li>
+          <li>Fibra y vegetales crucíferos</li>
+          <li>Antioxidantes potentes</li>
+          <li>Calorías al alza</li>
+        </ul>
+
+        <div class="phase-section-title">Movimiento</div>
+        <ul class="phase-items">
+          <li>Fuerza máxima</li>
+          <li>Entrenamientos intensos</li>
+          <li>Marcas personales</li>
+        </ul>
+
+        <div class="phase-energy">
+          <span class="phase-energy-label">Energía</span>
+          <div class="phase-energy-bar">
+            <div class="phase-energy-fill" style="width:95%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LÚTEA -->
+      <div class="phase-card lut reveal-right reveal-delay-3">
+        <div class="phase-dot"></div>
+        <div class="phase-days">Días 17–28</div>
+        <h3 class="phase-name">Lútea</h3>
+        <div class="phase-name-es">preparación e introspección</div>
+        <div class="phase-divider"></div>
+
+        <div class="phase-section-title">Nutrición</div>
+        <ul class="phase-items">
+          <li>Magnesio contra el SPM</li>
+          <li>Calcio y vitamina D</li>
+          <li>Reducir cafeína y sal</li>
+          <li>Carbohidratos complejos</li>
+        </ul>
+
+        <div class="phase-section-title">Movimiento</div>
+        <ul class="phase-items">
+          <li>Cardio moderado</li>
+          <li>Pilates y yoga</li>
+          <li>Escuchar al cuerpo</li>
+        </ul>
+
+        <div class="phase-energy">
+          <span class="phase-energy-label">Energía</span>
+          <div class="phase-energy-bar">
+            <div class="phase-energy-fill" style="width:45%"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS / PLAN GENERATION -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="how-header reveal">
+      <div class="section-label">El proceso</div>
+      <h2 class="section-title">Cómo HerAI crea<br><em>tu plan cada semana</em></h2>
+      <p class="section-desc">Cada domingo, HerAI genera un plan completamente nuevo. No es una plantilla — es un proceso de cálculo con más de 20 variables tuyas.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal-left">
+        <div class="how-step-num">1</div>
+        <h3 class="how-step-title">Calcula tus necesidades reales</h3>
+        <p class="how-step-desc">Usa la ecuación de Harris-Benedict revisada para tu metabolismo basal, multiplicada por tu nivel de actividad. Luego ajusta automáticamente según tu fase hormonal del ciclo — hasta un +8% en fase lútea, donde el cuerpo gasta más.</p>
+        <div class="how-step-chips">
+          <span class="how-chip">Harris-Benedict</span>
+          <span class="how-chip">Factor actividad</span>
+          <span class="how-chip">Ajuste hormonal</span>
+          <span class="how-chip">Objetivo personal</span>
+        </div>
+      </div>
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">2</div>
+        <h3 class="how-step-title">Integra tu contexto completo</h3>
+        <p class="how-step-desc">Tus síntomas del día, tu historial de ciclos anteriores, tus condiciones de salud, los alimentos que odias, tu presupuesto y el tiempo que tienes para cocinar. Todo entra en el mismo prompt al modelo de IA.</p>
+        <div class="how-step-chips">
+          <span class="how-chip">Síntomas actuales</span>
+          <span class="how-chip">Historial ciclos</span>
+          <span class="how-chip">Condición médica</span>
+          <span class="how-chip">Preferencias</span>
+        </div>
+      </div>
+      <div class="how-step reveal-right reveal-delay-2">
+        <div class="how-step-num">3</div>
+        <h3 class="how-step-title">Genera y valida el plan</h3>
+        <p class="how-step-desc">LLaMA 3.3 70B crea 7 días de comidas con macros, micronutrientes prioritarios y sinergias de absorción. El sistema valida que la media calórica semanal coincida con tu objetivo y que no haya ningún alimento de tu lista de rechazos.</p>
+        <div class="how-step-chips">
+          <span class="how-chip">LLaMA 3.3 70B</span>
+          <span class="how-chip">Validación macros</span>
+          <span class="how-chip">7 días completos</span>
+          <span class="how-chip">Sinergias activas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUTRITION DETAIL -->
+<section id="nutrition-detail" class="light-section">
+  <div class="section-inner">
+    <div class="nutrition-layout">
+      <div class="reveal">
+        <div class="section-label">Macronutrientes</div>
+        <h2 class="section-title">Los macros cambian<br><em>con tu ciclo</em></h2>
+        <p class="section-desc" style="margin-bottom:36px">
+          Los porcentajes de proteína, carbohidratos y grasas no son fijos.
+          Se redistribuyen cada semana según lo que tus hormonas necesitan —
+          respaldado por investigación publicada.
+        </p>
+        <div class="nutrition-callouts">
+          <div class="nutrition-callout reveal-left reveal-delay-1">
+            <span class="callout-icon">🍳</span>
+            <div>
+              <div class="callout-title">Desayuno anti-cortisol</div>
+              <p class="callout-desc">El cortisol es máximo por la mañana. HerAI nunca genera desayunos solo de fruta o carbohidrato simple — siempre incluye proteína de calidad y grasa saludable para evitar el pico glucémico matutino.</p>
+            </div>
+          </div>
+          <div class="nutrition-callout reveal-left reveal-delay-2">
+            <span class="callout-icon">🌙</span>
+            <div>
+              <div class="callout-title">Cena pro-sueño</div>
+              <p class="callout-desc">La cena se diseña para favorecer el sueño hormonal: rica en triptófano y magnesio, sin proteínas pesadas después de las 20h, con infusión recomendada según la fase del ciclo.</p>
+            </div>
+          </div>
+          <div class="nutrition-callout reveal-left reveal-delay-3">
+            <span class="callout-icon">🔄</span>
+            <div>
+              <div class="callout-title">Ajuste dinámico automático</div>
+              <p class="callout-desc">Si llevas 14 días sin progresar hacia tu objetivo, el sistema ajusta las calorías automáticamente. Si pierdes peso demasiado rápido, las aumenta. El plan evoluciona contigo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right reveal-delay-1">
+        <div class="macro-table-wrap">
+          <div class="macro-table-head">
+            <span class="macro-th">Fase</span>
+            <span class="macro-th">Proteína</span>
+            <span class="macro-th">Carbos</span>
+            <span class="macro-th">Grasas</span>
+          </div>
+          <div class="macro-row">
+            <div class="macro-phase">
+              <span class="macro-dot" style="background:var(--men)"></span>
+              <span class="macro-phase-name">Menstrual</span>
+            </div>
+            <span class="macro-val"><strong>25–30%</strong></span>
+            <span class="macro-val"><strong>35–40%</strong></span>
+            <span class="macro-val"><strong>30–35%</strong></span>
+          </div>
+          <div class="macro-row">
+            <div class="macro-phase">
+              <span class="macro-dot" style="background:var(--fol)"></span>
+              <span class="macro-phase-name">Folicular</span>
+            </div>
+            <span class="macro-val"><strong>30–35%</strong></span>
+            <span class="macro-val"><strong>40–45%</strong></span>
+            <span class="macro-val"><strong>20–25%</strong></span>
+          </div>
+          <div class="macro-row">
+            <div class="macro-phase">
+              <span class="macro-dot" style="background:var(--ovu)"></span>
+              <span class="macro-phase-name">Ovulatoria</span>
+            </div>
+            <span class="macro-val"><strong>30%</strong></span>
+            <span class="macro-val"><strong>45–50%</strong></span>
+            <span class="macro-val"><strong>20–25%</strong></span>
+          </div>
+          <div class="macro-row">
+            <div class="macro-phase">
+              <span class="macro-dot" style="background:var(--lut)"></span>
+              <span class="macro-phase-name">Lútea</span>
+            </div>
+            <span class="macro-val"><strong>25–30%</strong></span>
+            <span class="macro-val"><strong>50–55%</strong></span>
+            <span class="macro-val"><strong>20%</strong></span>
+          </div>
+        </div>
+        <p style="font-size:0.72rem;color:var(--muted2);margin-top:14px;padding:0 4px;line-height:1.6">
+          Fuente: Bisdee et al., 1989; Solomon et al., 1982; Barr et al., 1995. Los ratios se aplican sobre las calorías totales ajustadas por fase y objetivo.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP PERSONALIZATION -->
+<section id="personalization">
+  <div class="section-inner">
+    <div class="personal-layout">
+      <div class="reveal-left">
+        <div class="section-label">Personalización</div>
+        <h2 class="section-title">Más de 20 variables.<br><em>Un plan solo tuyo.</em></h2>
+        <p class="section-desc">
+          HerAI no te asigna una plantilla genérica. Cada variable que introduces — desde tu peso hasta los síntomas de hoy — cambia el plan real que recibes.
+        </p>
+        <div class="personal-stat-row" style="margin-top:40px">
+          <div class="personal-stat">
+            <span class="personal-stat-num">20+</span>
+            <span class="personal-stat-label">variables clínicas</span>
+          </div>
+          <div class="personal-stat">
+            <span class="personal-stat-num">7</span>
+            <span class="personal-stat-label">días de plan</span>
+          </div>
+          <div class="personal-stat">
+            <span class="personal-stat-num">4</span>
+            <span class="personal-stat-label">fases adaptadas</span>
+          </div>
+        </div>
+      </div>
+      <div class="personal-vars reveal-right reveal-delay-1">
+
+        <div class="var-group open" onclick="toggleGroup(this)">
+          <div class="var-group-header">
+            <span class="var-group-icon">🧬</span>
+            <span class="var-group-title">Datos biométricos y metabólicos</span>
+            <span class="var-group-count">6 vars</span>
+            <span class="var-group-arrow">▼</span>
+          </div>
+          <div class="var-group-body">
+            <div class="var-list">
+              <span class="var-item">Peso actual</span>
+              <span class="var-item">Altura</span>
+              <span class="var-item">Edad</span>
+              <span class="var-item">Peso objetivo</span>
+              <span class="var-item">Nivel de actividad</span>
+              <span class="var-item">Historial de peso (14 días)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="var-group" onclick="toggleGroup(this)">
+          <div class="var-group-header">
+            <span class="var-group-icon">🌙</span>
+            <span class="var-group-title">Ciclo hormonal</span>
+            <span class="var-group-count">4 vars</span>
+            <span class="var-group-arrow">▼</span>
+          </div>
+          <div class="var-group-body">
+            <div class="var-list">
+              <span class="var-item">Fase actual del ciclo</span>
+              <span class="var-item">Día del ciclo</span>
+              <span class="var-item">Longitud del ciclo</span>
+              <span class="var-item">Días especiales (ovulación, día 1, pre-menstrual)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="var-group" onclick="toggleGroup(this)">
+          <div class="var-group-header">
+            <span class="var-group-icon">🩺</span>
+            <span class="var-group-title">Síntomas y salud</span>
+            <span class="var-group-count">3 vars</span>
+            <span class="var-group-arrow">▼</span>
+          </div>
+          <div class="var-group-body">
+            <div class="var-list">
+              <span class="var-item">Síntomas del día actual</span>
+              <span class="var-item">Historial de síntomas por fase</span>
+              <span class="var-item">Condición médica declarada</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="var-group" onclick="toggleGroup(this)">
+          <div class="var-group-header">
+            <span class="var-group-icon">🥗</span>
+            <span class="var-group-title">Preferencias alimentarias</span>
+            <span class="var-group-count">8 vars</span>
+            <span class="var-group-arrow">▼</span>
+          </div>
+          <div class="var-group-body">
+            <div class="var-list">
+              <span class="var-item">Alergias e intolerancias</span>
+              <span class="var-item">Alimentos no deseados</span>
+              <span class="var-item">Alimentos favoritos</span>
+              <span class="var-item">Tipo de dieta</span>
+              <span class="var-item">Número de comidas/día</span>
+              <span class="var-item">Tiempo disponible para cocinar</span>
+              <span class="var-item">Presupuesto semanal</span>
+              <span class="var-item">Comidas habituales</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="var-group" onclick="toggleGroup(this)">
+          <div class="var-group-header">
+            <span class="var-group-icon">📅</span>
+            <span class="var-group-title">Contexto temporal</span>
+            <span class="var-group-count">2 vars</span>
+            <span class="var-group-arrow">▼</span>
+          </div>
+          <div class="var-group-body">
+            <div class="var-list">
+              <span class="var-item">Mes actual (temporada de alimentos)</span>
+              <span class="var-item">Día de la semana</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEDICAL CONDITIONS -->
+<section id="conditions" class="light-section">
+  <div class="section-inner">
+    <div class="conditions-header reveal">
+      <div class="section-label">Condiciones de salud</div>
+      <h2 class="section-title">Adaptada a tu<br><em>realidad clínica</em></h2>
+      <p class="section-desc">
+        HerAI no ignora tu diagnóstico. Si tienes una condición de salud,
+        el plan cambia radicalmente para trabajar con ella, no a pesar de ella.
+      </p>
+    </div>
+    <div class="conditions-grid">
+
+      <div class="condition-card c-sop reveal-tilt">
+        <span class="condition-emoji">🔵</span>
+        <h3 class="condition-name">Síndrome de Ovario Poliquístico</h3>
+        <span class="condition-acronym">SOP</span>
+        <ul class="condition-adapts">
+          <li>Dieta antiinflamatoria con índice glucémico bajo en todas las comidas</li>
+          <li>Limitación de lácteos y azúcares refinados</li>
+          <li>Prioridad a zinc y magnesio en cada fase</li>
+          <li>Proteína en cada ingesta para estabilizar insulina</li>
+        </ul>
+      </div>
+
+      <div class="condition-card c-endo reveal reveal-delay-1" style="transform-origin: top right">
+        <span class="condition-emoji">🌸</span>
+        <h3 class="condition-name">Endometriosis</h3>
+        <span class="condition-acronym">Endo</span>
+        <ul class="condition-adapts">
+          <li>Eliminación de gluten y reducción de lácteos</li>
+          <li>Aumento de verduras crucíferas (sulforafano antiinflamatorio)</li>
+          <li>Omega-3 elevado como antiinflamatorio natural</li>
+          <li>Eliminación total del alcohol</li>
+        </ul>
+      </div>
+
+      <div class="condition-card c-hipo reveal-tilt reveal-delay-2">
+        <span class="condition-emoji">🦋</span>
+        <h3 class="condition-name">Hipotiroidismo</h3>
+        <span class="condition-acronym">Hipo</span>
+        <ul class="condition-adapts">
+          <li>Exclusión de soja y crucíferas crudas en exceso</li>
+          <li>Prioridad a yodo (pescado, algas marinas)</li>
+          <li>Selenio activo (nueces de Brasil, atún)</li>
+          <li>Compatible con levotiroxina — no interfiere con la medicación</li>
+        </ul>
+      </div>
+
+      <div class="condition-card c-ins reveal-left reveal-delay-1">
+        <span class="condition-emoji">⚡</span>
+        <h3 class="condition-name">Resistencia a la Insulina</h3>
+        <span class="condition-acronym">RI</span>
+        <ul class="condition-adapts">
+          <li>IG muy bajo en absolutamente todas las comidas</li>
+          <li>Proteína obligatoria en cada ingesta como estabilizador glucémico</li>
+          <li>Ayuno nocturno de 12 horas integrado en el horario</li>
+          <li>Eliminación de zumos y fruta sola (pico glucémico)</li>
+        </ul>
+      </div>
+
+      <div class="condition-card c-mig reveal reveal-delay-2" style="transform-origin: bottom left">
+        <span class="condition-emoji">💆</span>
+        <h3 class="condition-name">Migraña</h3>
+        <span class="condition-acronym">Migraña</span>
+        <ul class="condition-adapts">
+          <li>Exclusión de alimentos con histamina (queso curado, vino, conservas)</li>
+          <li>Horarios fijos de comida — sin ayunos prolongados como desencadenante</li>
+          <li>Hidratación constante integrada en cada día del plan</li>
+          <li>Magnesio diario como preventivo natural</li>
+        </ul>
+      </div>
+
+      <div class="condition-card c-spm reveal-right reveal-delay-3">
+        <span class="condition-emoji">🌊</span>
+        <h3 class="condition-name">Síntomas premenstruales intensos</h3>
+        <span class="condition-acronym">SPM</span>
+        <ul class="condition-adapts">
+          <li>Protocolo específico los últimos 3 días del ciclo</li>
+          <li>Triptófano, magnesio y calcio aumentados para el ánimo</li>
+          <li>Carbohidratos complejos para controlar antojos sin pico glucémico</li>
+          <li>Reducción de cafeína y sodio (retención de líquidos)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SCIENCE / PHILOSOPHY -->
+<section id="science">
+  <div class="science-inner">
+    <div class="reveal">
+      <span class="science-quote-mark">"</span>
+      <blockquote class="science-quote">
+        Las hormonas femeninas fluctúan a lo largo del mes,
+        y con ellas cambia <em>todo</em>: el metabolismo, la fuerza,
+        la recuperación, el humor y el apetito. HerAI es la primera vez
+        que una app de salud realmente lo tiene en cuenta.
+      </blockquote>
+      <p class="science-source">— Principio fundamental de HerAI</p>
+    </div>
+
+    <div class="science-pillars reveal-scale reveal-delay-1">
+      <div class="science-pillar">
+        <div class="science-pillar-icon">🔬</div>
+        <span class="science-pillar-name">Respaldo científico</span>
+        <span class="science-pillar-desc">Basado en investigación sobre ciclo menstrual y rendimiento</span>
+      </div>
+      <div class="science-pillar">
+        <div class="science-pillar-icon">✨</div>
+        <span class="science-pillar-name">IA de última generación</span>
+        <span class="science-pillar-desc">LLaMA 3.3 70B para recomendaciones precisas y contextuales</span>
+      </div>
+      <div class="science-pillar">
+        <div class="science-pillar-icon">🔒</div>
+        <span class="science-pillar-name">Tu privacidad primero</span>
+        <span class="science-pillar-desc">Tus datos hormonales son tuyos y solo tuyos</span>
+      </div>
+      <div class="science-pillar">
+        <div class="science-pillar-icon">📱</div>
+        <span class="science-pillar-name">iOS & Android</span>
+        <span class="science-pillar-desc">Nativa en ambas plataformas con soporte de dark mode</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">HerAI</span>
+    <p class="footer-copy">
+      © 2026 HerAI. Diseñado con ❤️ para mujeres que quieren vivir en sintonía con su biología.
+    </p>
+    <ul class="footer-links">
+      <li><a href="#features">Funciones</a></li>
+      <li><a href="#science">Ciencia</a></li>
+      <li><a href="#science">Ciencia</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+/* ─── NAV SCROLL + LIGHT SECTION DETECTION ───────────── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+
+  // detect if nav is over a light section
+  const navBottom = navbar.getBoundingClientRect().bottom + window.scrollY;
+  const lightSections = document.querySelectorAll('.light-section');
+  let overLight = false;
+  lightSections.forEach(sec => {
+    const top = sec.offsetTop;
+    const bot = top + sec.offsetHeight;
+    if (navBottom > top && window.scrollY + 60 < bot) overLight = true;
+  });
+  navbar.classList.toggle('on-light', overLight);
+}, { passive: true });
+
+/* ─── MOBILE MENU ─────────────────────────────────────── */
+const hamburger   = document.getElementById('hamburger');
+const mobileMenu  = document.getElementById('mobileMenu');
+const menuClose   = document.getElementById('menuClose');
+const menuLinks   = document.querySelectorAll('.menu-link');
+
+hamburger.addEventListener('click',  () => mobileMenu.classList.add('open'));
+menuClose.addEventListener('click',  () => mobileMenu.classList.remove('open'));
+menuLinks.forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+/* ─── STARS ───────────────────────────────────────────── */
+const starsContainer = document.getElementById('heroStars');
+for (let i = 0; i < 60; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.cssText = `
+    left: ${Math.random() * 100}%;
+    top: ${Math.random() * 100}%;
+    --dur: ${2.5 + Math.random() * 4}s;
+    --delay: ${Math.random() * 6}s;
+    --op: ${0.3 + Math.random() * 0.5};
+    width: ${Math.random() > 0.8 ? 3 : 2}px;
+    height: ${Math.random() > 0.8 ? 3 : 2}px;
+  `;
+  starsContainer.appendChild(star);
+}
+
+/* ─── SCROLL REVEAL ───────────────────────────────────── */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    entry.target.classList.toggle('visible', entry.isIntersecting);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-tilt')
+  .forEach(el => revealObserver.observe(el));
+
+/* ─── CARD MOUSE GLOW ─────────────────────────────────── */
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    card.style.setProperty('--mx', x + '%');
+    card.style.setProperty('--my', y + '%');
+  });
+});
+
+/* ─── VAR GROUP ACCORDION ────────────────────────────── */
+function toggleGroup(el) {
+  el.classList.toggle('open');
+}
+
+</script>
+
+</body>
+</html>
