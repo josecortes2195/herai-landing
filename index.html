@@ -74,15 +74,17 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: background 0.4s ease, padding 0.3s ease, border-color 0.4s ease;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.3s ease, border-color 0.4s ease;
 }
 nav.scrolled {
-  background: #1a0a14;
+  background: rgba(26,10,20,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 14px 48px;
   border-bottom: 1px solid rgba(123,34,82,0.18);
 }
 nav.on-light {
-  background: #faf4f0 !important;
+  background: rgba(250,244,240,0.92) !important;
   border-bottom-color: rgba(123,34,82,0.12) !important;
 }
 nav.on-light .nav-logo { color: #1c0e14; }
