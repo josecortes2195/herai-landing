@@ -104,12 +104,13 @@ nav.on-light .nav-hamburger span { background: #1c0e14; }
   gap: 8px;
   transition: color 0.4s ease;
 }
-.nav-logo span {
-  display: inline-block;
+.nav-logo img {
+  display: block;
   width: 28px; height: 28px;
-  background: conic-gradient(from 180deg, var(--gold) 0%, var(--rose) 40%, var(--burg) 70%, var(--gold) 100%);
+
   border-radius: 50%;
-  animation: spin-slow 12s linear infinite;
+  object-fit: cover;
+
 }
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 
@@ -162,6 +163,7 @@ nav.on-light .nav-hamburger span { background: #1c0e14; }
 .orb {
   position: absolute;
   border-radius: 50%;
+  object-fit: cover;
   filter: blur(80px);
   pointer-events: none;
   will-change: transform;
@@ -207,12 +209,23 @@ nav.on-light .nav-hamburger span { background: #1c0e14; }
   width: 2px; height: 2px;
   background: var(--rose-l);
   border-radius: 50%;
+  object-fit: cover;
   opacity: 0;
   animation: twinkle var(--dur, 4s) var(--delay, 0s) ease-in-out infinite;
 }
 @keyframes twinkle {
   0%,100%{opacity:0;transform:scale(0.5)}
   50%{opacity:var(--op,0.6);transform:scale(1)}
+}
+
+.hero-logo-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 20px;
+  display: block;
+  box-shadow: 0 0 32px rgba(201,96,128,0.35);
 }
 
 .hero-eyebrow {
@@ -681,7 +694,7 @@ h3.feature-title {
   line-height: 1.75;
 }
 .feature-tag {
-  display: inline-block;
+  display: block;
   margin-top: 20px;
   padding: 4px 12px;
   border-radius: 100px;
@@ -1011,6 +1024,7 @@ h3.feature-title {
 .phase-dot {
   width: 10px; height: 10px;
   border-radius: 50%;
+  object-fit: cover;
   background: var(--phase-color);
   margin-bottom: 20px;
   box-shadow: 0 0 12px var(--phase-color);
@@ -1425,6 +1439,7 @@ footer {
 .how-step-num {
   width: 40px; height: 40px;
   border-radius: 50%;
+  object-fit: cover;
   background: linear-gradient(135deg, var(--burg), var(--rose));
   display: flex; align-items: center; justify-content: center;
   font-family: var(--ff-serif);
@@ -1712,6 +1727,7 @@ h3.condition-name {
 .macro-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
+  object-fit: cover;
   flex-shrink: 0;
 }
 .macro-phase-name {
@@ -1784,7 +1800,7 @@ h3.condition-name {
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <span></span>
+    <img src="img/logo.jpg" alt="HerAI logo">
     HerAI
   </a>
   <ul class="nav-links">
@@ -1815,6 +1831,7 @@ h3.condition-name {
   <div class="orb orb-4"></div>
   <div class="hero-stars" id="heroStars"></div>
 
+  <img src="img/logo.jpg" alt="HerAI" class="hero-logo-img">
   <div class="hero-eyebrow">Tu compañera hormonal con IA</div>
 
   <h1 class="hero-title">
