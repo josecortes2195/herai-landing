@@ -215,7 +215,7 @@ nav.on-light .nav-hamburger span { background: #1c0e14; }
 }
 @keyframes twinkle {
   0%,100%{opacity:0;transform:scale(0.5)}
-  50%{opacity:var(--op,0.6);transform:scale(1)}
+  50%{opacity:var(--op,0.8);transform:scale(1.4)}
 }
 
 .hero-logo-img {
@@ -2239,7 +2239,7 @@ menuLinks.forEach(l => l.addEventListener('click', () => mobileMenu.classList.re
 
 /* ─── STARS ───────────────────────────────────────────── */
 const starsContainer = document.getElementById('heroStars');
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 120; i++) {
   const star = document.createElement('div');
   star.className = 'star';
   star.style.cssText = `
@@ -2247,9 +2247,9 @@ for (let i = 0; i < 60; i++) {
     top: ${Math.random() * 100}%;
     --dur: ${2.5 + Math.random() * 4}s;
     --delay: ${Math.random() * 6}s;
-    --op: ${0.3 + Math.random() * 0.5};
-    width: ${Math.random() > 0.8 ? 3 : 2}px;
-    height: ${Math.random() > 0.8 ? 3 : 2}px;
+    --op: ${0.5 + Math.random() * 0.5};
+    width: ${Math.random() > 0.85 ? 4 : Math.random() > 0.5 ? 3 : 2}px;
+    height: ${Math.random() > 0.85 ? 4 : Math.random() > 0.5 ? 3 : 2}px;
   `;
   starsContainer.appendChild(star);
 }
