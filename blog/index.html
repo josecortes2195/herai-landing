@@ -111,13 +111,7 @@ nav.scrolled {
   align-items: center;
   gap: 8px;
 }
-.nav-logo span {
-  display: inline-block;
-  width: 28px; height: 28px;
-  background: conic-gradient(from 180deg, var(--gold) 0%, var(--rose) 40%, var(--burg) 70%, var(--gold) 100%);
-  border-radius: 50%;
-  animation: spin-slow 12s linear infinite;
-}
+.nav-logo-moon{display:inline-block;width:32px;height:32px;object-fit:contain;flex-shrink:0;}
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 .nav-links {
   display: flex;
@@ -367,7 +361,7 @@ footer {
 <body>
 
 <nav id="navbar">
-  <a href="/" class="nav-logo"><span></span>HerAI</a>
+  <a href="/" class="nav-logo"><img class="nav-logo-moon" src="/img/herai-moon-icon.png" alt="" width="32" height="32">HerAI</a>
   <ul class="nav-links">
     <li><a href="/#showcase-hoy">La app</a></li>
     <li><a href="/#showcase-nutricion">Nutrición</a></li>
