@@ -8,8 +8,10 @@
 <link rel="canonical" href="https://heraiapp.es/">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <meta name="robots" content="index, follow">
-<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/img/logo.jpg">
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+<link rel="alternate icon" type="image/x-icon" href="/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+<link rel="manifest" href="/img/site.webmanifest">
 <meta name="theme-color" content="#1a0a14">
 <meta name="keywords" content="ciclo menstrual, nutrición hormonal, entrenamiento ciclo menstrual, app ciclo menstrual, fases hormonales, SOP, endometriosis, salud hormonal femenina, HerAI">
 
@@ -29,13 +31,13 @@
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="HerAI — App de ciclo menstrual, nutrición y entrenamiento hormonal">
 <meta property="og:description" content="HerAI personaliza tu nutrición y entrenamiento según tu ciclo menstrual y fases hormonales. Inteligencia artificial al servicio de tu biología femenina.">
-<meta property="og:image" content="https://heraiapp.es/img/logo.jpg">
+<meta property="og:image" content="https://heraiapp.es/img/og-image.png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="HerAI — App de ciclo menstrual, nutrición y entrenamiento hormonal">
 <meta name="twitter:description" content="HerAI personaliza tu nutrición y entrenamiento según tu ciclo menstrual y fases hormonales.">
-<meta name="twitter:image" content="https://heraiapp.es/img/logo.jpg">
+<meta name="twitter:image" content="https://heraiapp.es/img/twitter-card.png">
 
 <!-- JSON-LD: datos estructurados -->
 <script type="application/ld+json">
@@ -76,7 +78,7 @@
       "@id": "https://heraiapp.es/#organization",
       "name": "HerAI",
       "url": "https://heraiapp.es/",
-      "logo": "https://heraiapp.es/img/logo.jpg"
+      "logo": "https://heraiapp.es/img/og-image.png"
     }
   ]
 }
@@ -222,30 +224,25 @@ nav.on-light {
   background: rgba(250,244,240,0.20) !important; backdrop-filter: blur(28px) saturate(1.4) !important; -webkit-backdrop-filter: blur(28px) saturate(1.4) !important;
   border-bottom-color: rgba(123,34,82,0.12) !important;
 }
-nav.on-light .nav-logo { color: #1c0e14; }
 nav.on-light .nav-links a { color: rgba(28,14,20,0.5); }
 nav.on-light .nav-links a:hover { color: #1c0e14; }
 nav.on-light .nav-hamburger span { background: #1c0e14; }
 .nav-logo {
-  font-family: var(--ff-serif);
-  font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: 2px;
-  color: var(--cream);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: color 0.4s ease;
+  line-height: 1;
 }
-.nav-logo span {
-  display: inline-block;
-  width: 28px; height: 28px;
-  background: conic-gradient(from 180deg, var(--gold) 0%, var(--rose) 40%, var(--burg) 70%, var(--gold) 100%);
-  border-radius: 50%;
-  animation: spin-slow 12s linear infinite;
+.nav-logo img {
+  height: 28px;
+  width: auto;
+  display: block;
+  transition: opacity 0.3s ease;
 }
-@keyframes spin-slow { to { transform: rotate(360deg); } }
+.nav-logo img.logo-dark  { display: block; }
+.nav-logo img.logo-light { display: none; }
+nav.on-light .nav-logo img.logo-dark  { display: none; }
+nav.on-light .nav-logo img.logo-light { display: block; }
 
 .nav-links {
   display: flex;
@@ -1377,11 +1374,10 @@ footer {
   gap: 20px;
 }
 .footer-logo {
-  font-family: var(--ff-serif);
-  font-size: 1.2rem;
-  font-weight: 300;
-  letter-spacing: 2px;
-  color: var(--muted);
+  height: 22px;
+  width: auto;
+  opacity: 0.55;
+  display: block;
 }
 .footer-copy {
   font-size: 0.78rem;
@@ -1921,8 +1917,8 @@ h3.condition-name {
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <span></span>
-    HerAI
+    <img class="logo-dark"  src="img/herai-logo-dark.svg"  alt="HerAI" width="110" height="28">
+    <img class="logo-light" src="img/herai-logo-light.svg" alt="HerAI" width="110" height="28">
   </a>
   <ul class="nav-links">
     <li><a href="#showcase-hoy">La app</a></li>
@@ -2366,7 +2362,7 @@ h3.condition-name {
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <span class="footer-logo">HerAI</span>
+    <img class="footer-logo" src="img/herai-logo-dark.svg" alt="HerAI" width="90" height="23">
     <p class="footer-copy">
       © 2026 HerAI. Diseñado con ❤️ para mujeres que quieren vivir en sintonía con su biología.
     </p>

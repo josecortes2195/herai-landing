@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200">
+  <rect width="520" height="200" fill="#faf6f2"/>
+  
+  <defs>
+    <filter id="ll_mg" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.000" in="SourceGraphic" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ll_sg" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="1.000" in="SourceGraphic" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <mask id="ll_cm">
+      <circle cx="100.000" cy="100.000" r="31.500" fill="white"/>
+      <circle cx="115.000"   cy="89.500"   r="25.500" fill="black"/>
+    </mask>
+  </defs>
+  <circle cx="100.000" cy="100.000" r="90.000" fill="rgba(240,196,48,0.08)"/>
+  <circle cx="100.000" cy="100.000" r="61.500" fill="rgba(240,196,48,0.06)"/>
+  <g filter="url(#ll_mg)">
+    <circle cx="100.000" cy="100.000" r="31.500" fill="#f0c030" mask="url(#ll_cm)"/>
+  </g>
+  <g filter="url(#ll_sg)">
+    <circle cx="143.500" cy="55.000" r="3.000" fill="#b08030" opacity="0.90"/>
+    <circle cx="153.250" cy="69.250" r="2.250" fill="#b08030" opacity="0.60"/>
+    <circle cx="148.000" cy="86.500" r="1.500" fill="#b08030" opacity="0.40"/>
+  </g>
+  <text x="206" y="100"
+    font-family="Raleway, sans-serif" font-weight="300" font-size="70"
+    fill="#2a1a1a" letter-spacing="3" dominant-baseline="middle">HerAI</text>
+  <text x="210" y="148"
+    font-family="Urbanist, sans-serif" font-weight="400" font-size="12"
+    fill="rgba(42,26,26,0.50)" letter-spacing="3.5">SALUD HORMONAL PERSONALIZADA</text>
+</svg>

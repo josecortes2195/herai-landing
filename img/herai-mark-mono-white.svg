@@ -1,27 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
   
   <defs>
-    <filter id="mk_mg" x="-40%" y="-40%" width="180%" height="180%">
+    <filter id="mw_mg" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="6.000" in="SourceGraphic" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="mk_sg" x="-100%" y="-100%" width="300%" height="300%">
+    <filter id="mw_sg" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="2.000" in="SourceGraphic" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <mask id="mk_cm">
+    <mask id="mw_cm">
       <circle cx="200.000" cy="200.000" r="63.000" fill="white"/>
       <circle cx="230.000"   cy="179.000"   r="51.000" fill="black"/>
     </mask>
   </defs>
-  <circle cx="200.000" cy="200.000" r="180.000" fill="rgba(240,196,48,0.05)"/>
+  <circle cx="200.000" cy="200.000" r="180.000" fill="rgba(240,196,48,0.06)"/>
   <circle cx="200.000" cy="200.000" r="123.000" fill="rgba(240,196,48,0.04)"/>
-  <g filter="url(#mk_mg)">
-    <circle cx="200.000" cy="200.000" r="63.000" fill="#f0c030" mask="url(#mk_cm)"/>
+  <g filter="url(#mw_mg)">
+    <circle cx="200.000" cy="200.000" r="63.000" fill="white" mask="url(#mw_cm)"/>
   </g>
-  <g filter="url(#mk_sg)">
-    <circle cx="287.000" cy="110.000" r="6.000" fill="#fff5b4" opacity="0.90"/>
-    <circle cx="306.500" cy="138.500" r="4.500" fill="#fff5b4" opacity="0.60"/>
-    <circle cx="296.000" cy="173.000" r="3.000" fill="#fff5b4" opacity="0.40"/>
+  <g filter="url(#mw_sg)">
+    <circle cx="287.000" cy="110.000" r="6.000" fill="white" opacity="0.90"/>
+    <circle cx="306.500" cy="138.500" r="4.500" fill="white" opacity="0.60"/>
+    <circle cx="296.000" cy="173.000" r="3.000" fill="white" opacity="0.40"/>
   </g>
 </svg>
