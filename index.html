@@ -228,21 +228,24 @@ nav.on-light .nav-links a { color: rgba(28,14,20,0.5); }
 nav.on-light .nav-links a:hover { color: #1c0e14; }
 nav.on-light .nav-hamburger span { background: #1c0e14; }
 .nav-logo {
+  font-family: var(--ff-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--cream);
   text-decoration: none;
   display: flex;
   align-items: center;
-  line-height: 1;
+  gap: 8px;
+  transition: color 0.4s ease;
 }
-.nav-logo img {
-  height: 28px;
-  width: auto;
-  display: block;
-  transition: opacity 0.3s ease;
+nav.on-light .nav-logo { color: #1c0e14; }
+.nav-logo-moon {
+  display: inline-block;
+  width: 28px; height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
-.nav-logo img.logo-dark  { display: block; }
-.nav-logo img.logo-light { display: none; }
-nav.on-light .nav-logo img.logo-dark  { display: none; }
-nav.on-light .nav-logo img.logo-light { display: block; }
 
 .nav-links {
   display: flex;
@@ -1917,8 +1920,8 @@ h3.condition-name {
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <img class="logo-dark"  src="img/herai-logo-dark.svg"  alt="HerAI" width="110" height="28">
-    <img class="logo-light" src="img/herai-logo-light.svg" alt="HerAI" width="110" height="28">
+    <img class="nav-logo-moon" src="img/herai-moon.svg" alt="" width="28" height="28">
+    HerAI
   </a>
   <ul class="nav-links">
     <li><a href="#showcase-hoy">La app</a></li>

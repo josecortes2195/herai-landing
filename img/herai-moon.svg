@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!--
+    HerAI — Moon Logo Mark  — escala ×1.2
+    Outer halo r=180  Inner halo r=123  Disc r=63  Cut r=51 offset(+30,-21)
+  -->
+  <defs>
+    <filter id="moon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" in="SourceGraphic" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="star-glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2" in="SourceGraphic" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <mask id="crescent-mask">
+      <rect width="400" height="400" fill="black"/>
+      <circle cx="200" cy="200" r="63"  fill="white"/>
+      <circle cx="230" cy="179" r="51"  fill="black"/>
+    </mask>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="400" height="400" fill="#160a1a"/>
+
+  <!-- Outer halo -->
+  <circle cx="200" cy="200" r="180" fill="rgba(240,196,48,0.05)"/>
+
+  <!-- Inner halo -->
+  <circle cx="200" cy="200" r="123" fill="rgba(240,196,48,0.04)"/>
+
+  <!-- Creciente con glow uniforme -->
+  <g filter="url(#moon-glow)">
+    <circle cx="200" cy="200" r="63" fill="#f0c030" mask="url(#crescent-mask)"/>
+  </g>
+
+  <!-- Stars -->
+  <g filter="url(#star-glow)">
+    <circle cx="287"   cy="110"   r="6"   fill="#fff5b4" opacity="0.90"/>
+    <circle cx="306.5" cy="138.5" r="4.5" fill="#fff5b4" opacity="0.60"/>
+    <circle cx="296"   cy="173"   r="3"   fill="#fff5b4" opacity="0.40"/>
+  </g>
+</svg>
