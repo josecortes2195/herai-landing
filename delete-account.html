@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eliminar cuenta — HerAI</title>
+<meta name="description" content="Cómo eliminar tu cuenta y datos de HerAI.">
+<link rel="canonical" href="https://heraiapp.es/delete-account.html">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2QWDWBHNNY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2QWDWBHNNY');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@0,300;0,400;0,500;0,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dark:  #1a0a14;
+    --burg:  #7b2252;
+    --rose:  #c96080;
+    --cream: #f5ede8;
+    --muted: rgba(245,237,232,0.5);
+    --text:  #2d1228;
+    --gray:  #6b4a5a;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fdf8fa;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  nav {
+    background: var(--dark);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #fff;
+    text-decoration: none;
+    font-style: italic;
+  }
+  .nav-back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: #fff; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--dark) 0%, #3d1a30 100%);
+    padding: 80px 40px 60px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 46px);
+    color: #fff;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  .updated {
+    display: inline-block;
+    background: #fce4ec;
+    color: var(--burg);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 40px;
+    letter-spacing: 0.3px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--burg);
+    margin: 40px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(123,34,82,0.12);
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  p { font-size: 15px; color: var(--text); margin-bottom: 14px; }
+
+  ol, ul {
+    margin: 0 0 14px 20px;
+    font-size: 15px;
+    color: var(--text);
+  }
+  li { margin-bottom: 8px; }
+
+  .step-box {
+    background: #fff;
+    border: 1px solid rgba(123,34,82,0.12);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 24px 0;
+  }
+  .step-box ol { margin-bottom: 0; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  .data-table th {
+    background: var(--burg);
+    color: #fff;
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 500;
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child  { border-radius: 0 8px 0 0; }
+  .data-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(123,34,82,0.08);
+    color: var(--text);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) td { background: rgba(123,34,82,0.03); }
+
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 100px;
+  }
+  .badge-del  { background: #fce4ec; color: #b71c1c; }
+  .badge-keep { background: #e8f5e9; color: #1b5e20; }
+
+  .contact-box {
+    background: linear-gradient(135deg, var(--dark) 0%, #3d1a30 100%);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .contact-box p { color: var(--muted); margin-bottom: 8px; }
+  .contact-box a {
+    color: var(--rose);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .contact-box a:hover { text-decoration: underline; }
+
+  footer {
+    background: var(--dark);
+    color: var(--muted);
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+  }
+  footer a { color: var(--muted); text-decoration: none; margin: 0 8px; }
+  footer a:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">HerAI</a>
+  <a href="/" class="nav-back">← Volver al inicio</a>
+</nav>
+
+<div class="hero">
+  <h1>Eliminar tu cuenta</h1>
+  <p>Puedes eliminar tu cuenta y todos tus datos en cualquier momento, directamente desde la app o solicitándolo por email.</p>
+</div>
+
+<div class="content">
+  <span class="updated">Actualizado: abril 2026</span>
+
+  <h2>Opción 1 — Desde la app (inmediato)</h2>
+  <p>La forma más rápida. Tu cuenta y todos tus datos se eliminan en el momento:</p>
+  <div class="step-box">
+    <ol>
+      <li>Abre HerAI e inicia sesión</li>
+      <li>Ve a la pestaña <strong>Ajustes</strong> (icono de engranaje)</li>
+      <li>Desplázate hasta la sección <strong>Cuenta</strong></li>
+      <li>Pulsa <strong>"Eliminar cuenta"</strong></li>
+      <li>Confirma la acción en el diálogo que aparece</li>
+    </ol>
+  </div>
+  <p>La eliminación es inmediata e irreversible. No podrás recuperar tus datos una vez confirmada.</p>
+
+  <h2>Opción 2 — Por email</h2>
+  <p>Si no puedes acceder a la app, envíanos un email a <a href="mailto:support@heraiapp.es" style="color:var(--burg);font-weight:600;">support@heraiapp.es</a> con el asunto <strong>"Eliminar cuenta"</strong> e indica el email con el que te registraste. Procesamos la solicitud en un plazo máximo de 30 días.</p>
+
+  <h2>Qué datos se eliminan</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Tipo de dato</th>
+        <th>Acción</th>
+        <th>Plazo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Cuenta de usuario (email, contraseña)</td>
+        <td><span class="badge badge-del">Eliminado</span></td>
+        <td>Inmediato</td>
+      </tr>
+      <tr>
+        <td>Perfil (nombre, edad, peso, altura)</td>
+        <td><span class="badge badge-del">Eliminado</span></td>
+        <td>Inmediato</td>
+      </tr>
+      <tr>
+        <td>Datos de ciclo menstrual e historial</td>
+        <td><span class="badge badge-del">Eliminado</span></td>
+        <td>Inmediato</td>
+      </tr>
+      <tr>
+        <td>Registros de síntomas, sueño y energía</td>
+        <td><span class="badge badge-del">Eliminado</span></td>
+        <td>Inmediato</td>
+      </tr>
+      <tr>
+        <td>Planes de nutrición y entrenamiento</td>
+        <td><span class="badge badge-del">Eliminado</span></td>
+        <td>Inmediato</td>
+      </tr>
+      <tr>
+        <td>Historial de chat con IA</td>
+        <td><span class="badge badge-del">Eliminado</span></td>
+        <td>Inmediato</td>
+      </tr>
+      <tr>
+        <td>Registros de transacciones (si aplica)</td>
+        <td><span class="badge badge-keep">Conservado</span></td>
+        <td>5 años (obligación legal fiscal)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Los registros de transacciones se conservan únicamente por obligación legal y no se usan para ningún otro fin.</p>
+
+  <div class="contact-box">
+    <p>¿Tienes alguna pregunta sobre tus datos?</p>
+    <a href="mailto:support@heraiapp.es">support@heraiapp.es</a>
+  </div>
+</div>
+
+<footer>
+  © 2026 HerAI &nbsp;·&nbsp;
+  <a href="/privacy.html">Privacidad</a>
+  <a href="/delete-account.html">Eliminar cuenta</a>
+</footer>
+
+</body>
+</html>
